@@ -1,0 +1,386 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teller | Production Calendar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed-variant": "#586701",
+              "on-tertiary-fixed-variant": "#665500",
+              "on-surface": "#f6f6fc",
+              "secondary-dim": "#e4d844",
+              "on-primary-container": "#1f2600",
+              "on-tertiary-fixed": "#463900",
+              "surface-dim": "#0c0e12",
+              "outline": "#74757a",
+              "surface-container-high": "#1d2025",
+              "inverse-surface": "#f9f9ff",
+              "secondary-container": "#676000",
+              "on-background": "#f6f6fc",
+              "error-dim": "#d53d18",
+              "primary-fixed": "#e1f586",
+              "secondary-fixed-dim": "#e4d844",
+              "tertiary-fixed-dim": "#edca30",
+              "on-error": "#450900",
+              "primary-dim": "#dcef81",
+              "outline-variant": "#46484d",
+              "on-tertiary-container": "#5b4b00",
+              "inverse-on-surface": "#53555a",
+              "primary": "#eafe8e",
+              "surface-container-low": "#111318",
+              "error": "#ff7351",
+              "on-secondary-fixed-variant": "#645d00",
+              "error-container": "#b92902",
+              "on-primary": "#536200",
+              "surface-variant": "#23262c",
+              "tertiary-container": "#fcd83f",
+              "background": "#0c0e12",
+              "primary-fixed-dim": "#d3e67a",
+              "secondary-fixed": "#f2e651",
+              "secondary": "#f2e651",
+              "surface-tint": "#eafe8e",
+              "on-secondary-container": "#fff9d1",
+              "surface-container-highest": "#23262c",
+              "surface-bright": "#292c32",
+              "on-surface-variant": "#aaabb0",
+              "on-secondary-fixed": "#454100",
+              "inverse-primary": "#566600",
+              "surface": "#0c0e12",
+              "surface-container": "#171a1f",
+              "tertiary": "#ffe794",
+              "tertiary-fixed": "#fcd83f",
+              "on-primary-fixed": "#3e4900",
+              "on-secondary": "#595300",
+              "primary-container": "#97a944",
+              "tertiary-dim": "#edca30",
+              "surface-container-lowest": "#000000",
+              "on-error-container": "#ffd2c8",
+              "on-tertiary": "#655400"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #0c0e12; color: #f6f6fc; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+        .ghost-border { border: 1px solid rgba(116, 117, 122, 0.15); }
+        .lime-glow-shadow { box-shadow: 0 0 15px rgba(234, 254, 142, 0.15); }
+        .primary-gradient { background: linear-gradient(135deg, #eafe8e 0%, #97a944 100%); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="font-body selection:bg-primary/30 min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-[#0c0e12]/80 backdrop-blur-xl docked full-width top-0 sticky z-50 shadow-[0_20px_40px_rgba(0,0,0,0.4),0_0_15px_rgba(197,216,109,0.05)] border-b border-white/5">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-[1920px] mx-auto">
+<div class="flex items-center gap-12">
+<div class="text-2xl font-black tracking-tighter text-[#f6f6fc] uppercase flex items-center gap-1">
+                    Teller <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#eafe8e]"></span>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-['Inter'] antialiased tracking-tight text-sm font-semibold">
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="index.html">Dashboard</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="analytics.html">Analytics</a>
+<a class="text-[#eafe8e] border-b-2 border-[#eafe8e] pb-1" href="calendar.html">Calendar</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="team.html">Team</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="settings.html">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="primary-gradient text-on-primary-container px-5 py-2 rounded-lg font-bold text-sm active:scale-95 duration-200 shadow-lg">
+                    + New Video
+                </button>
+<div class="w-10 h-10 rounded-full border border-primary/20 overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="Professional user profile avatar circular" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPTGkOsqu1tz2XH6f3NaQFkWeXNH_iNWBNJXsz2xTjRHw94N57axjEieJBo74ei1khCOkAEu4MY5MTZ-0XsbrmquzkjMrXeENoxc7kFZqSHMpPCNo8DEaoYKh3X7DcKCJTBM6PMi5SPbMt4ZJgA0NLZhaNr3kcqWic367RaS-HBPhs5L77_GvT6xIlentd62E9UfcwU8RfuCQPV2bpv2-QufiuX40-1MFtcXzlbKtp18TToRG9iJoxXBNTGumb8eW1KaZ3U-UAmGn7"/>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-[1920px] mx-auto w-full px-8 py-10">
+<!-- Hero Section -->
+<section class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="space-y-2">
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface font-headline">Your Production Calendar</h1>
+<p class="text-on-surface-variant max-w-xl">Never miss a deadline. Stay ahead of schedule with the obsidian-glass production pipeline view.</p>
+</div>
+<div class="flex flex-wrap items-center gap-4">
+<div class="glass ghost-border p-1 rounded-full flex items-center">
+<button class="px-6 py-1.5 rounded-full text-xs font-bold bg-white/10 text-on-surface">Month</button>
+<button class="px-6 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">Week</button>
+<button class="px-6 py-1.5 rounded-full text-xs font-bold text-on-surface-variant hover:text-on-surface transition-colors">List</button>
+</div>
+<button class="primary-gradient text-on-primary-container px-6 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg">calendar_add_on</span>
+                    Add Deadline
+                </button>
+</div>
+</section>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-10 gap-8">
+<!-- Monthly Calendar View (Main Content, 70% Width) -->
+<div class="xl:col-span-7 space-y-4">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-xl font-bold font-headline flex items-center gap-3">
+                        March 2024
+                        <span class="text-xs uppercase tracking-widest text-on-surface-variant bg-surface-container-high px-2 py-1 rounded">Q1 Production</span>
+</h2>
+<div class="flex gap-2">
+<button class="glass ghost-border w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="glass ghost-border w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Calendar Grid -->
+<div class="grid grid-cols-7 gap-px glass ghost-border rounded-xl overflow-hidden bg-white/5">
+<!-- Weekday Headers -->
+<div class="bg-surface-container-low p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant border-b border-white/5">Sun</div>
+<div class="bg-surface-container-low p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant border-b border-white/5">Mon</div>
+<div class="bg-surface-container-low p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant border-b border-white/5">Tue</div>
+<div class="bg-surface-container-low p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant border-b border-white/5">Wed</div>
+<div class="bg-surface-container-low p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant border-b border-white/5">Thu</div>
+<div class="bg-surface-container-low p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant border-b border-white/5">Fri</div>
+<div class="bg-surface-container-low p-4 text-center text-[10px] font-black uppercase tracking-[0.2em] text-on-surface-variant border-b border-white/5">Sat</div>
+<!-- Calendar Days (Mocking March 2024) -->
+<!-- Week 1 -->
+<div class="min-h-[140px] bg-surface-container-lowest p-3 opacity-30 text-xs">25</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3 opacity-30 text-xs">26</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3 opacity-30 text-xs">27</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3 opacity-30 text-xs">28</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3 opacity-30 text-xs">29</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3 p-3">
+<span class="text-xs font-semibold">1</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3 p-3">
+<span class="text-xs font-semibold">2</span>
+</div>
+<!-- Week 2 -->
+<div class="min-h-[140px] bg-surface-container-low p-3">
+<span class="text-xs font-semibold">3</span>
+<div class="mt-2 space-y-1">
+<div class="bg-primary/10 border border-primary/20 p-1.5 rounded text-[10px] text-primary truncate">
+                                🎬 Script: AI Ethics
+                            </div>
+</div>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">4</span>
+<div class="mt-2 flex gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary shadow-[0_0_6px_#f2e651]"></span>
+</div>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">5</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">6</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">7</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">8</span>
+<div class="mt-2 space-y-1">
+<div class="bg-error/10 border border-error/20 p-1.5 rounded text-[10px] text-error truncate">
+                                ⚠️ OVERDUE: Sponsorship
+                            </div>
+</div>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">9</span>
+</div>
+<!-- Week 3 (Today) -->
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">10</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">11</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3 border-2 border-primary/40 shadow-[inset_0_0_20px_rgba(234,254,142,0.05)] relative">
+<span class="text-xs font-bold text-primary">12</span>
+<span class="absolute top-2 right-2 text-[8px] bg-primary text-on-primary px-1.5 py-0.5 rounded-full font-black uppercase">Today</span>
+<div class="mt-2 space-y-1">
+<div class="bg-white/5 border border-white/10 p-1.5 rounded text-[10px] truncate">
+                                🎥 Filming: Desk Setup
+                            </div>
+<div class="bg-white/5 border border-white/10 p-1.5 rounded text-[10px] truncate">
+                                🎙️ VO: Tech Review
+                            </div>
+</div>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">13</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">14</span>
+<div class="mt-2 flex gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_6px_#eafe8e]"></span>
+</div>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">15</span>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">16</span>
+</div>
+<!-- Remaining Days (Simulated) -->
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">17</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">18</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">19</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3">
+<span class="text-xs font-semibold">20</span>
+<div class="mt-2 space-y-1">
+<div class="bg-tertiary-container/10 border border-tertiary-container/20 p-1.5 rounded text-[10px] text-tertiary truncate">
+                                ✅ Done: Apple Vision
+                            </div>
+</div>
+</div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">21</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">22</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">23</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">24</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">25</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">26</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">27</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">28</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">29</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">30</span></div>
+<div class="min-h-[140px] bg-surface-container-lowest p-3"><span class="text-xs font-semibold">31</span></div>
+</div>
+</div>
+<!-- Right Sidebar (30% Width) -->
+<aside class="xl:col-span-3 space-y-8">
+<!-- Today's Tasks -->
+<div class="glass ghost-border rounded-xl p-6 shadow-xl">
+<h3 class="text-sm font-black uppercase tracking-widest text-on-surface-variant mb-6 flex items-center justify-between">
+                        Today's Tasks
+                        <span class="material-symbols-outlined text-sm opacity-50">more_horiz</span>
+</h3>
+<div class="space-y-4">
+<div class="group flex items-start gap-4 p-3 rounded-lg hover:bg-white/5 transition-all">
+<div class="mt-1 w-5 h-5 rounded border border-white/20 flex items-center justify-center cursor-pointer group-hover:border-primary/50">
+<span class="material-symbols-outlined text-[14px] text-primary opacity-0 group-hover:opacity-100 transition-opacity">check</span>
+</div>
+<div class="flex-grow">
+<div class="text-xs font-bold text-on-surface mb-1">Color Grade: AI Ethics</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-bold uppercase tracking-tighter">Post-Prod</span>
+<span class="text-[10px] text-on-surface-variant">4:00 PM</span>
+</div>
+</div>
+</div>
+<div class="group flex items-start gap-4 p-3 rounded-lg bg-error/5 border border-error/10">
+<div class="mt-1 w-5 h-5 rounded border border-error/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px] text-error">priority_high</span>
+</div>
+<div class="flex-grow">
+<div class="text-xs font-bold text-error mb-1">Final Export: Desk Setup</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-error/20 text-error font-bold uppercase tracking-tighter">Overdue</span>
+<span class="text-[10px] text-error/70">11:00 AM</span>
+</div>
+</div>
+</div>
+<div class="group flex items-start gap-4 p-3 rounded-lg hover:bg-white/5 transition-all">
+<div class="mt-1 w-5 h-5 rounded border border-white/20 flex items-center justify-center"></div>
+<div class="flex-grow">
+<div class="text-xs font-bold text-on-surface mb-1">Review Thumbnail Mockups</div>
+<div class="flex items-center gap-2">
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-on-surface-variant font-bold uppercase tracking-tighter">Design</span>
+<span class="text-[10px] text-on-surface-variant">6:30 PM</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Upcoming Deadlines -->
+<div class="space-y-4">
+<h3 class="text-sm font-black uppercase tracking-widest text-on-surface-variant px-2">Upcoming Deadlines</h3>
+<div class="space-y-2">
+<!-- Deadline 1 -->
+<div class="glass ghost-border p-4 rounded-xl flex items-center justify-between hover:bg-white/10 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-2 h-10 rounded-full bg-primary/50"></div>
+<div>
+<div class="text-xs font-bold">2024 Tech Predictions</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wide">Main Channel</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-bold text-primary">In 2 days</div>
+<div class="text-[10px] text-on-surface-variant">Mar 14</div>
+</div>
+</div>
+<!-- Deadline 2 -->
+<div class="glass ghost-border p-4 rounded-xl flex items-center justify-between hover:bg-white/10 transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-2 h-10 rounded-full bg-secondary/50"></div>
+<div>
+<div class="text-xs font-bold">Shorts: Desk Setup Teaser</div>
+<div class="text-[10px] text-on-surface-variant uppercase tracking-wide">Shorts Feed</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-[10px] font-bold text-on-surface">In 5 days</div>
+<div class="text-[10px] text-on-surface-variant">Mar 17</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Completed This Week -->
+<div class="bg-surface-container-low rounded-xl p-6">
+<h3 class="text-sm font-black uppercase tracking-widest text-on-surface-variant mb-4">Completed This Week</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-xs text-on-surface-variant line-through">Why Obsidian is the Best...</span>
+</div>
+<span class="text-[9px] text-on-surface-variant font-bold">Mar 10</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+<span class="text-xs text-on-surface-variant line-through">Camera Buying Guide 2024</span>
+</div>
+<span class="text-[9px] text-on-surface-variant font-bold">Mar 08</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0c0e12] w-full py-12 mt-auto border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 gap-6 max-w-[1920px] mx-auto">
+<div class="font-['Inter'] text-[10px] uppercase tracking-[0.1em] font-medium text-[#aaabb0]">
+                © 2024 Teller Production Suite | v1.0.0
+            </div>
+<div class="flex gap-8">
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.1em] font-medium text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="#">Documentation</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.1em] font-medium text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="#">Privacy Policy</a>
+<a class="font-['Inter'] text-[10px] uppercase tracking-[0.1em] font-medium text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="index.html">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

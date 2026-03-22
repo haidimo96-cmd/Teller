@@ -1,0 +1,1040 @@
+{
+  "pipeline": {
+    "name": "HOA YouTube Video Production Pipeline",
+    "version": "5.0",
+    "updated": "2026-03-22",
+    "description": "Pipeline sản xuất video YouTube từ Idea đến Title. File này là Single Source of Truth cho web app — parse JSON để render UI, gọi AI API, track progress. Synced với pipelineRegistry.ts.",
+    "total_phases": 7,
+    "estimated_total_time_min": 335,
+
+    "phases": [
+      {
+        "id": "idea-evaluation",
+        "phase_number": 1,
+        "name": "Ý Tưởng",
+        "name_en": "Idea Brainstorm",
+        "icon": "💡",
+        "color": "#F59E0B",
+        "stage": "idea",
+        "estimated_time_min": 20,
+        "description": "Brainstorm ý tưởng với AI, sàng lọc & đánh giá idea. Scoring theo tiêu chí nghiên cứu từ 7 video viral (16M+ views), adapt theo nhóm pattern.",
+        "description_en": "Brainstorm ideas with AI, evaluate using research-backed scoring system, determine FURY/STRATEGY/COMEDY pattern.",
+
+        "workflows": [
+          {
+            "id": "danh-gia-idea",
+            "file": "Idea Process/workflows/danh-gia-idea.md",
+            "name": "Đánh giá idea (Phần 1)",
+            "covers_steps": ["1", "1.5", "1.7", "2"]
+          },
+          {
+            "id": "danh-gia-idea-p2",
+            "file": "Idea Process/workflows/danh-gia-idea-p2.md",
+            "name": "Đánh giá idea (Phần 2)",
+            "covers_steps": ["3", "4", "5", "6"]
+          }
+        ],
+
+        "rules_required": [],
+
+        "steps": [
+          {
+            "step_id": "1-1",
+            "name": "Brainstorm với AI",
+            "description": "Nhập topic → AI gợi ý ideas dựa trên 9 story patterns",
+            "pause_after": false
+          },
+          {
+            "step_id": "1-1.5",
+            "name": "Xác định HOA Story Pattern",
+            "description": "Match idea với 9 HOA patterns (Malicious Compliance, Board Takeover, Dissolve, Sympathetic Victim, Legal Trap, Property Rights, Financial Fraud, Foreclosure, Community Comedy)",
+            "pause_after": false
+          },
+          {
+            "step_id": "1-1.7",
+            "name": "Xác định nhóm scoring",
+            "description": "Chọn nhóm FURY / STRATEGY / COMEDY → quyết định bộ tiêu chí chấm điểm",
+            "pause_after": false
+          },
+          {
+            "step_id": "1-2",
+            "name": "Chấm điểm Universal + Pattern-Specific",
+            "description": "Universal (U1-U6, /60 điểm) + Pattern-Specific (Tier S/A/B, quy đổi /40 điểm)",
+            "pause_after": false
+          },
+          {
+            "step_id": "1-3",
+            "name": "Red Flags + Tính điểm tổng",
+            "description": "Kiểm tra red flags, tính tổng /100, đưa verdict",
+            "pause_after": true,
+            "pause_message": "Trình kết quả đánh giá cho user duyệt"
+          }
+        ],
+
+        "input": {
+          "type": "text_or_file",
+          "accept": ["text", "url", "markdown"],
+          "description": "Idea câu chuyện (mô tả tóm tắt, link Reddit, concept thô, hoặc file Idea có sẵn)",
+          "source_folder": "Ideas/",
+          "example": "HOA bắt nạt cựu chiến binh về cột cờ trên sân nhà"
+        },
+
+        "output": {
+          "type": "file",
+          "folder": "Ideas/{category}/",
+          "naming_pattern": "Idea-{slug}-V{version}.md",
+          "example": "Ideas/Sympathetic-Victim/Idea-hoa-veteran-flagpole-sued-V1.md",
+          "deliverables": [
+            {
+              "key": "pattern_group",
+              "label": "Nhóm Pattern",
+              "type": "enum",
+              "values": ["FURY", "STRATEGY", "COMEDY"]
+            },
+            {
+              "key": "score_universal",
+              "label": "Điểm Universal",
+              "type": "number",
+              "max": 60
+            },
+            {
+              "key": "score_pattern",
+              "label": "Điểm Pattern-Specific",
+              "type": "number",
+              "max": 40
+            },
+            {
+              "key": "score_total",
+              "label": "Điểm Tổng",
+              "type": "number",
+              "max": 100
+            },
+            {
+              "key": "red_flags",
+              "label": "Red Flags",
+              "type": "string_array"
+            },
+            {
+              "key": "verdict",
+              "label": "Verdict",
+              "type": "enum",
+              "values": ["PASS", "FAIL"],
+              "pass_threshold": 70
+            }
+          ]
+        },
+
+        "pass_criteria": {
+          "min_score": 70,
+          "on_fail": "Thông báo user, hỏi tiếp tục hay chọn idea khác"
+        },
+
+        "dependencies": [],
+        "can_skip": true,
+        "skip_condition": "Idea đã được đánh giá trước đó (có file trong Ideas/)"
+      },
+
+      {
+        "id": "outline-creation",
+        "phase_number": 2,
+        "name": "Dàn Ý",
+        "name_en": "Outline Creation",
+        "icon": "📋",
+        "color": "#3B82F6",
+        "stage": "outline",
+        "estimated_time_min": 45,
+        "description": "Tạo dàn ý chi tiết gồm Story Prep, Character Blueprint (3 C's), Story Inventory Mining, Mini Arc Map, Retention Hook Map, Emotional Ladder.",
+        "description_en": "Create detailed outline including story prep, character blueprints, arc mapping, and retention hooks.",
+
+        "workflows": [
+          {
+            "id": "tao-dan-y",
+            "file": "Outline Process/workflow/tao-dan-y.md",
+            "name": "Tạo dàn ý kịch bản",
+            "covers_steps": ["all"]
+          }
+        ],
+
+        "rules_required": [
+          {
+            "file": "Outline Process/core-rules/story-prep.md",
+            "purpose": "Character Blueprint, Object, Forces, Hypocrisy"
+          },
+          {
+            "file": "Outline Process/core-rules/structure-and-technique.md",
+            "purpose": "Mini Arc, Therefore Test, Object System"
+          },
+          {
+            "file": "Outline Process/format-rules/outline-creator.md",
+            "purpose": "Output format"
+          }
+        ],
+
+        "rules_excluded": [
+          "Script Process/phase-rules/",
+          "Script Process/format-and-wording/"
+        ],
+
+        "steps": [
+          {
+            "step_id": "2-step1",
+            "name": "Story Prep + Character + Inventory",
+            "description": "Ticking Clock, Binary Forces, Object, Transitional State, POV Audit, Character Blueprint (3 C's: Complexity/Consistency/Motivation), Story Inventory Mining",
+            "sub_items": [
+              "Ticking Clock — countdown/deadline",
+              "Binary Forces — X vs Y (core conflict)",
+              "Object — vật thể cảm xúc theo pattern",
+              "Character Blueprint Hero (3-5 traits, flaw, motivation)",
+              "Character Blueprint Villain (3-5 traits, conviction, motivation)",
+              "Story Inventory Mining (characters, numbers, objects, irony, dialogue callback, visual moments)"
+            ],
+            "pause_after": true,
+            "pause_message": "Trình Story Prep + Inventory cho user xác nhận TRƯỚC KHI lên arc"
+          },
+          {
+            "step_id": "2-step2",
+            "name": "Arc Map + Outline hoàn chỉnh",
+            "description": "Mini Arc Mapping (Question + Mini Climax + THEREFORE + Visual Notes), Retention Hook Map, Emotional Ladder Verification, Character Blueprint Verification",
+            "sub_items": [
+              "Mini Arc Mapping — chia story thành arcs, QUESTION + MINI CLIMAX mỗi Part",
+              "THEREFORE test — nhân quả giữa mỗi arc",
+              "Retention Hook Map — hook mỗi 90-120 giây",
+              "Emotional Ladder Verification",
+              "Character Blueprint Verification (3 C's check)",
+              "Tạo file outline"
+            ],
+            "pause_after": true,
+            "pause_message": "Trình outline hoàn chỉnh cho user duyệt"
+          }
+        ],
+
+        "input": {
+          "type": "file_or_text",
+          "accept": ["markdown", "text"],
+          "description": "Idea đã pass + Pattern đã xác định",
+          "from_phase": "idea-evaluation",
+          "source_folder": "Ideas/{category}/",
+          "also_reads": ["Idea Process/story-patterns/{sub-genre}.md"]
+        },
+
+        "output": {
+          "type": "file",
+          "folder": "Dan Y/{PATTERN}/",
+          "naming_pattern": "Outline-{slug}-V{version}.md",
+          "example": "Dan Y/FURY/Outline-hoa-veteran-flagpole-V1.md",
+          "deliverables": [
+            {
+              "key": "story_inventory",
+              "label": "Story Inventory",
+              "type": "structured_text"
+            },
+            {
+              "key": "mini_arc_map",
+              "label": "Mini Arc Map + Visual Notes",
+              "type": "structured_text"
+            },
+            {
+              "key": "retention_hook_map",
+              "label": "Retention Hook Map",
+              "type": "table"
+            },
+            {
+              "key": "emotional_ladder",
+              "label": "Emotional Ladder",
+              "type": "checklist"
+            }
+          ]
+        },
+
+        "dependencies": ["idea-evaluation"],
+        "can_skip": true,
+        "skip_condition": "Dàn ý đã có (file Outline tồn tại trong Dan Y/)"
+      },
+
+      {
+        "id": "script-vi",
+        "phase_number": 3,
+        "name": "Kịch Bản Vi",
+        "name_en": "Vietnamese Script",
+        "icon": "✍️",
+        "color": "#8B5CF6",
+        "stage": "script_vi",
+        "estimated_time_min": 90,
+        "description": "Viết kịch bản tiếng Việt (Hook → Body → Ghép + Review). Hỗ trợ comment từng dòng để yêu cầu AI chỉnh sửa. Prose liền mạch, 3,000-4,500 từ.",
+        "description_en": "Write Vietnamese script with inline commenting for AI-assisted line-by-line editing.",
+
+        "workflows": [
+          {
+            "id": "viet-kich-ban",
+            "file": "Script Process/workflow/viet-kich-ban.md",
+            "name": "Viết kịch bản hoàn chỉnh từ dàn ý",
+            "covers_steps": ["all"]
+          }
+        ],
+
+        "rules_required": [
+          {
+            "file": "Script Process/phase-rules/phase-1-hook.md",
+            "purpose": "Hook writing rules",
+            "used_in_step": "3-step1"
+          },
+          {
+            "file": "Script Process/phase-rules/phase-2-body-{pattern}.md",
+            "purpose": "Body writing rules (pattern-specific)",
+            "used_in_step": "3-step2",
+            "variants": {
+              "FURY": "phase-2-body-fury.md",
+              "STRATEGY": "phase-2-body-strategy.md",
+              "COMEDY": "phase-2-body-comedy.md"
+            }
+          },
+          {
+            "file": "Script Process/format-and-wording/script-format-checklist.md",
+            "purpose": "Format rules",
+            "used_in_step": "3-step3"
+          },
+          {
+            "file": "Script Process/format-and-wording/script-wording-formula.md",
+            "purpose": "Bảng sửa lỗi từ ngữ VI",
+            "used_in_step": "3-step3"
+          }
+        ],
+
+        "steps": [
+          {
+            "step_id": "3-step1",
+            "name": "Viết Hook (P1) — Tiếng Việt",
+            "description": "Reddit Synopsis (PRODUCTION ONLY block), Villain Confrontation Opening, Narrator greeting + CTA. ~400-600 từ.",
+            "language": "vi",
+            "sub_items": [
+              "Reddit Synopsis — ngôi 1, casual, 150-250 từ",
+              "Villain Opening Line — trịch thượng, action verb",
+              "Teaser — 2-3 câu hỏi gợi mở, KHÔNG spoil",
+              "Narrator greeting — 1 câu, nguồn gốc UNIQUE",
+              "CTA nhẹ nhàng + Transition vào P2"
+            ],
+            "includes_sub_review": {
+              "file": "Script Process/sub-review/hook-review.md",
+              "description": "Sub-review hook theo checklist, sửa trực tiếp"
+            },
+            "word_budget": {"min": 400, "max": 600},
+            "pause_after": true,
+            "pause_message": "Gửi hook (tiếng Việt) cho user duyệt"
+          },
+          {
+            "step_id": "3-step2",
+            "name": "Viết Body (P2-P9) — Tiếng Việt",
+            "description": "Setup (P2-P3) + Escalation (P4-P6) + Climax + Ending (P7-P9). ~3,500-4,500 từ.",
+            "language": "vi",
+            "sub_items": [
+              "Setup — Origin + Villain intro",
+              "Escalation — Destruction → Point of No Return → Build",
+              "Climax + Ending — Showdown → Resolution → Closure",
+              "Narrator lines bắt buộc (Engagement Pause, Punchline, CTA cuối)",
+              "Visual Writing (1 câu = 1 hình)"
+            ],
+            "includes_sub_review": {
+              "file": "Script Process/sub-review/body-{pattern}.md",
+              "description": "Sub-review body theo pattern checklist, sửa trực tiếp"
+            },
+            "word_budget": {"min": 3500, "max": 4500},
+            "pause_after": true,
+            "pause_message": "Gửi body (tiếng Việt) cho user duyệt nội dung + cấu trúc"
+          },
+          {
+            "step_id": "3-step3",
+            "name": "Ghép + Tinh chỉnh",
+            "description": "Ghép Hook + Body → 1 file VI liền mạch. Check format, transitions, wording formula, encoding. Tinh chỉnh từ comment inline.",
+            "language": "vi",
+            "sub_items": [
+              "Ghép VI → 1 file liền mạch",
+              "Final review (format, transitions, KT5/KT11/KT12/KT14)",
+              "Kiểm tra bảng sửa lỗi từ ngữ",
+              "Encoding check (mojibake → fix)"
+            ],
+            "pause_after": true,
+            "pause_message": "Gửi script VI cho user duyệt"
+          }
+        ],
+
+        "input": {
+          "type": "file",
+          "accept": ["markdown"],
+          "description": "File dàn ý đã được user duyệt",
+          "from_phase": "outline-creation",
+          "source_folder": "Dan Y/{PATTERN}/"
+        },
+
+        "output": {
+          "type": "file",
+          "folder": "Kich Ban/VI/{PATTERN}/",
+          "naming_pattern": "Script-{slug}-VI-V{version}.md",
+          "example": "Kich Ban/VI/FURY/Script-hoa-veteran-flagpole-VI-V1.md",
+          "format_rules": {
+            "style": "prose_continuous",
+            "separators": ["---"],
+            "no_headers": true,
+            "no_labels": true,
+            "word_count": {"min": 3000, "max": 4500}
+          }
+        },
+
+        "dependencies": ["outline-creation"],
+        "can_skip": false
+      },
+
+      {
+        "id": "review",
+        "phase_number": 4,
+        "name": "Review",
+        "name_en": "Script Review",
+        "icon": "🔍",
+        "color": "#EF4444",
+        "stage": "review",
+        "estimated_time_min": 45,
+        "description": "Review kịch bản 3 pha (Hook → Body → Final), đánh giá Universal + Pattern-Specific, cho điểm ⭐1-5 từng mục.",
+        "description_en": "3-phase script review: Hook → Body → Final. Universal + pattern-specific scoring.",
+
+        "workflows": [
+          {
+            "id": "review",
+            "file": "Review Process/workflow/review.md",
+            "name": "Review kịch bản",
+            "covers_steps": ["all"]
+          }
+        ],
+
+        "rules_required": [
+          {
+            "file": "Review Process/sub-review/hook-review.md",
+            "purpose": "Hook review checklist",
+            "used_in_step": "4-pha1"
+          },
+          {
+            "file": "Review Process/sub-review/body-{pattern}.md",
+            "purpose": "Body review checklist (pattern-specific)",
+            "used_in_step": "4-pha2",
+            "variants": {
+              "FURY": "body-fury.md",
+              "STRATEGY": "body-strategy.md",
+              "COMEDY": "body-comedy.md"
+            }
+          },
+          {
+            "file": "Review Process/sub-review/final-review.md",
+            "purpose": "Final review (format + consistency)",
+            "used_in_step": "4-pha3"
+          }
+        ],
+
+        "steps": [
+          {
+            "step_id": "4-pha1",
+            "name": "Review Hook",
+            "description": "Rà soát Hook: 3-step structure, Villain Line, Macro Question, KT-H1→H10, teaser, narrator"
+          },
+          {
+            "step_id": "4-pha2",
+            "name": "Review Body",
+            "description": "Rà soát Body (P2-P9): Craft KT1-KT16, Pacing, Mini Arcs, Pattern-specific (Climax/Cliffhanger), Character"
+          },
+          {
+            "step_id": "4-pha3",
+            "name": "Final Review",
+            "description": "Rà soát toàn bộ script: Format, Transitions, KT5 Motif, KT11 Numbers, KT12 Terminology, KT14 Dialogue Callback, Anti-patterns"
+          },
+          {
+            "step_id": "4-fix",
+            "name": "Áp dụng fixes (nếu cần)",
+            "description": "Đề xuất fixes → user duyệt → áp dụng → lưu V2",
+            "conditional": true,
+            "condition": "verdict == 'NEEDS_FIX'",
+            "pause_after": true,
+            "pause_message": "Trình fixes cho user duyệt trước khi áp dụng"
+          }
+        ],
+
+        "review_sections": {
+          "universal": {
+            "sections": [
+              {"id": "A", "name": "Hook (Mở đầu)", "max_score": 5},
+              {"id": "B", "name": "Macro Question", "max_score": 5},
+              {"id": "C", "name": "LATDE (Kỹ thuật phân cảnh)", "max_score": 5},
+              {"id": "D0", "name": "Mini Arcs & THEREFORE", "max_score": 5},
+              {"id": "G", "name": "Văn Phong & Nhịp Độ (KT6-KT16)", "max_score": 5},
+              {"id": "G3", "name": "Kỹ Thuật Mới (Charlotte Dobre)", "max_score": 5},
+              {"id": "G4", "name": "Character Depth — 3 C's", "max_score": 5},
+              {"id": "H", "name": "Tổng Quan", "max_score": 5}
+            ]
+          },
+          "pattern_specific": {
+            "FURY": {
+              "sections": [
+                {"id": "D-FURY", "name": "Yếu Tố Bổ Trợ (Emotional Object, Fury build-up)", "max_score": 5},
+                {"id": "E-FURY", "name": "Climax 6 Lớp (Đỉnh giả → Công lý → Quiet → Mic Drop → Dây chuyền → Tự hủy)", "max_score": 5},
+                {"id": "F-FURY", "name": "Micro-Cliffhanger (tension/fury, 5-7 cái)", "max_score": 5}
+              ]
+            },
+            "STRATEGY": {
+              "sections": [
+                {"id": "D-STRATEGY", "name": "Yếu Tố Bổ Trợ (Evidence Trail, Research Journey, Expert-proof)", "max_score": 5},
+                {"id": "E-STRATEGY", "name": "Climax Checkmate (Bối cảnh → Last stand → Bằng chứng → Checkmate → Power shift → Validation)", "max_score": 5},
+                {"id": "F-STRATEGY", "name": "Micro-Cliffhanger (information-gap, 5-7 cái)", "max_score": 5}
+              ]
+            },
+            "COMEDY": {
+              "sections": [
+                {"id": "D-COMEDY", "name": "Yếu Tố Bổ Trợ (Running Gag, Escalation Loop, Community Arc)", "max_score": 5},
+                {"id": "E-COMEDY", "name": "Climax (Escalation peak → Overreact → Bẽ mặt → Punchline → Exit → Celebration)", "max_score": 5},
+                {"id": "F-COMEDY", "name": "Micro-Cliffhanger (anticipation/vui, 4-6 cái)", "max_score": 5},
+                {"id": "G-COMEDY", "name": "Kỹ Thuật Viết Hài (Zig Zig Zag, Punch-End, Keep It Lean)", "max_score": 5}
+              ]
+            }
+          }
+        },
+
+        "input": {
+          "type": "file",
+          "accept": ["markdown"],
+          "description": "Script VI đã viết xong",
+          "from_phase": "script-vi",
+          "source_folder": "Kich Ban/VI/{PATTERN}/"
+        },
+
+        "output": {
+          "type": "file",
+          "folder": "Review/",
+          "naming_pattern": "Review-{slug}-V{version}.md",
+          "example": "Review/Review-hoa-veteran-flagpole-V1.md",
+          "deliverables": [
+            {
+              "key": "section_scores",
+              "label": "Điểm từng mục",
+              "type": "score_map",
+              "scale": "1-5 stars"
+            },
+            {
+              "key": "strengths",
+              "label": "Top 3 điểm mạnh",
+              "type": "string_array",
+              "count": 3
+            },
+            {
+              "key": "weaknesses",
+              "label": "Top 3 điểm yếu",
+              "type": "string_array",
+              "count": 3
+            },
+            {
+              "key": "verdict",
+              "label": "Verdict",
+              "type": "enum",
+              "values": ["PASS", "NEEDS_FIX", "REWRITE"]
+            }
+          ],
+          "if_needs_fix": {
+            "additional_output": [
+              {
+                "folder": "Kich Ban/VI/{PATTERN}/",
+                "naming_pattern": "Script-{slug}-VI-V{version+1}.md"
+              }
+            ]
+          }
+        },
+
+        "dependencies": ["script-vi"],
+        "can_skip": false
+      },
+
+      {
+        "id": "script-en",
+        "phase_number": 5,
+        "name": "Kịch Bản En",
+        "name_en": "English Script",
+        "icon": "🌐",
+        "color": "#06B6D4",
+        "stage": "script_en",
+        "estimated_time_min": 60,
+        "description": "Dịch kịch bản từ tiếng Việt sang tiếng Anh, giữ nguyên tone storytelling. Viết lại tự nhiên, không dịch word-by-word.",
+        "description_en": "Translate Vietnamese script to English, maintaining storytelling tone and narrative flow.",
+
+        "workflows": [],
+
+        "rules_required": [
+          {
+            "file": "Script Process/format-and-wording/script-format-checklist.md",
+            "purpose": "Format consistency"
+          }
+        ],
+
+        "steps": [
+          {
+            "step_id": "5-step1",
+            "name": "Dịch sang tiếng Anh",
+            "description": "Dịch VI → EN (viết lại tự nhiên, không dịch máy). Giữ cấu trúc, narrator, format.",
+            "language": "en",
+            "pause_after": true,
+            "pause_message": "Gửi script EN cho user duyệt"
+          },
+          {
+            "step_id": "5-step2",
+            "name": "Review bản dịch",
+            "description": "Kiểm tra tone, fluency, narrative flow. Đảm bảo tự nhiên cho audience tiếng Anh.",
+            "language": "en",
+            "pause_after": true,
+            "pause_message": "Gửi bản dịch final cho user duyệt"
+          }
+        ],
+
+        "input": {
+          "type": "file",
+          "accept": ["markdown"],
+          "description": "Script VI đã review xong (phiên bản mới nhất)",
+          "from_phase": "review",
+          "source_folder": "Kich Ban/VI/{PATTERN}/"
+        },
+
+        "output": {
+          "type": "file",
+          "folder": "Kich Ban/EN/{PATTERN}/",
+          "naming_pattern": "Script-{slug}-EN-V{version}.md",
+          "example": "Kich Ban/EN/FURY/Script-hoa-veteran-flagpole-EN-V1.md",
+          "format_rules": {
+            "style": "prose_continuous",
+            "separators": ["---"],
+            "no_headers": true,
+            "no_labels": true,
+            "word_count": {"min": 3000, "max": 4500}
+          }
+        },
+
+        "dependencies": ["review"],
+        "can_skip": false
+      },
+
+      {
+        "id": "vo-script",
+        "phase_number": 6,
+        "name": "Script VO",
+        "name_en": "VO Script Generation",
+        "icon": "🎙️",
+        "color": "#10B981",
+        "stage": "script_vo",
+        "estimated_time_min": 45,
+        "description": "Chuyển Script EN → các file .txt có audio tags cho ElevenLabs. 3 Phase: Đọc & Hiểu → Chuẩn Bị → Viết & QA.",
+        "description_en": "Convert EN script to .txt files with audio tags for ElevenLabs voice generation.",
+
+        "workflows": [
+          {
+            "id": "tao-script-note",
+            "file": "VO Process/workflow/tao-script-note.md",
+            "name": "Tạo Script Note cho VO",
+            "covers_steps": ["all"]
+          }
+        ],
+
+        "rules_required": [
+          {
+            "file": "VO Process/vo-rules/vo-foundations.md",
+            "purpose": "Nguyên tắc nền tảng, clean text, chia file, Beat/Pause Guide",
+            "used_in_step": "6-phase1, 6-phase2"
+          },
+          {
+            "file": "VO Process/vo-rules/vo-tags-reference.md",
+            "purpose": "Danh sách tags, tonal families, pattern tags",
+            "used_in_step": "6-phase1, 6-phase3"
+          },
+          {
+            "file": "VO Process/vo-rules/vo-tagging-rules.md",
+            "purpose": "Cách chèn tags (đầu dòng, mid-sentence, dialogue)",
+            "used_in_step": "6-phase3"
+          },
+          {
+            "file": "VO Process/vo-rules/vo-anti-patterns-qa.md",
+            "purpose": "Lỗi cần tránh + QA checklist",
+            "used_in_step": "6-phase3"
+          }
+        ],
+
+        "steps": [
+          {
+            "step_id": "6-phase1",
+            "name": "ĐỌC & HIỂU",
+            "description": "Đọc kịch bản như storyteller. Ghi Narrator Mindset, Tone, Pacing, Contrast Points cho mỗi section. Map Emotional Arc + Villain Evolution + Sacred Phrases + 8 Yếu Tố.",
+            "sub_items": [
+              "Emotional Arc Map toàn story",
+              "Villain Evolution Arc (mở → giữa → kết)",
+              "Sacred Phrases / Motifs",
+              "8 Yếu Tố Giọng Đọc — đánh dấu vị trí"
+            ],
+            "pause_after": false
+          },
+          {
+            "step_id": "6-phase2",
+            "name": "CHUẨN BỊ",
+            "description": "Clean text (xóa Reddit Synopsis block, xóa ---). Chia files ≤800 từ/file, cắt ở scene transitions.",
+            "sub_items": [
+              "Xóa <!-- PRODUCTION ONLY --> block",
+              "Xóa --- (markdown separators)",
+              "Chia file theo PARTS (≤800 từ mỗi file)",
+              "Naming: Part_{X}_-_{NAME}.txt"
+            ],
+            "pause_after": false
+          },
+          {
+            "step_id": "6-phase3",
+            "name": "VIẾT & QA",
+            "description": "Gắn audio tags theo Narrator Map. QA: Clean Check + Tag Quality + Context Quality + ElevenLabs Compatibility + File Check.",
+            "sub_items": [
+              "Gắn tags: đầu dòng, mid-sentence, dialogue",
+              "Pause = punctuation (... / , / xuống dòng)",
+              "QA Clean Check (6 items)",
+              "QA Tag Quality (14 items)",
+              "QA Context Quality (4 items)",
+              "QA ElevenLabs Compatibility (5 items)",
+              "QA File Check (4 items)"
+            ],
+            "pause_after": true,
+            "pause_message": "Trình VO files cho user duyệt"
+          }
+        ],
+
+        "input": {
+          "type": "file",
+          "accept": ["markdown"],
+          "description": "Script EN (phiên bản mới nhất sau review)",
+          "from_phase": "script-en",
+          "source_folder": "Kich Ban/EN/{PATTERN}/"
+        },
+
+        "output": {
+          "type": "multiple_files",
+          "folder": "Process VO/{slug}/",
+          "naming_pattern": "Part_{letter}_{number}_-_{section_name}.txt",
+          "examples": [
+            "Process VO/hoa-chalk-art-rebellion/Part_A_-_HOOK.txt",
+            "Process VO/hoa-chalk-art-rebellion/Part_B-1_-_TRIGGER_The_Backstory.txt",
+            "Process VO/hoa-chalk-art-rebellion/Part_C-2_-_ESCALATION_Chalk_Saturday.txt"
+          ],
+          "format": {
+            "extension": "txt",
+            "encoding": "UTF-8",
+            "max_words_per_file": 800,
+            "content_type": "plain_text_with_audio_tags"
+          }
+        },
+
+        "dependencies": ["script-en"],
+        "can_skip": false
+      },
+
+      {
+        "id": "title-generation",
+        "phase_number": 7,
+        "name": "Title & Thumbnail",
+        "name_en": "Title Generation",
+        "icon": "🎬",
+        "color": "#EC4899",
+        "stage": "title",
+        "estimated_time_min": 30,
+        "description": "Tạo 5 gợi ý title tiếng Anh theo 5 công thức viral + thumbnail suggestion chi tiết.",
+        "description_en": "Generate 5 English title suggestions using 5 viral formulas + detailed thumbnail concepts.",
+
+        "workflows": [
+          {
+            "id": "tao-title",
+            "file": "Title Process/workflow/tao-title.md",
+            "name": "Tạo title suggestions",
+            "covers_steps": ["all"]
+          }
+        ],
+
+        "rules_required": [
+          {
+            "file": "Title Process/title-rules/title-generator.md",
+            "purpose": "Core Principles, Emotional Triggers, Linguistic Techniques"
+          },
+          {
+            "file": "Title Process/title-rules/title-generator-p2.md",
+            "purpose": "Curiosity Gap, Two-Clause Analysis, Power Words, Professional Checklist"
+          },
+          {
+            "file": "Title Process/title-rules/title-generator-p3.md",
+            "purpose": "5 Formulas, Combos, Formatting Rules, Generation Process, Output Format"
+          }
+        ],
+
+        "steps": [
+          {
+            "step_id": "7-1",
+            "name": "Extract Key Elements",
+            "description": "Villain, hành động tệ nhất, vũ khí bí mật hero, twist, con số, emotional anchor, payoff"
+          },
+          {
+            "step_id": "7-2",
+            "name": "Generate 5 Title Options",
+            "description": "Option A (Overstep→Payback), B (Identity Reveal), C (Injustice/Huge Mistake), D (Numbers/Mixed), E (Wild card)"
+          },
+          {
+            "step_id": "7-3",
+            "name": "Analyze & Score",
+            "description": "Curiosity (1-10), Clarity (1-10), Emotion (1-10), Gap Level (1-5), Mobile truncation, Psychology breakdown"
+          },
+          {
+            "step_id": "7-4",
+            "name": "Professional Checklist",
+            "description": "A: Emotional Architecture, B: Curiosity Gap, C: Linguistic Craft, D: Two-Clause, E: Technical"
+          },
+          {
+            "step_id": "7-5",
+            "name": "Recommend Top Pick",
+            "description": "Chọn 1 title tốt nhất + giải thích lý do"
+          },
+          {
+            "step_id": "7-6",
+            "name": "Gợi ý Thumbnail",
+            "description": "Layout (Split Screen/Confrontation/Evidence), Text Overlay, Nhân vật & Biểu cảm, Bảng Màu, Props"
+          }
+        ],
+
+        "input": {
+          "type": "file",
+          "accept": ["markdown"],
+          "description": "Script EN (phiên bản mới nhất)",
+          "from_phase": "script-en",
+          "source_folder": "Kich Ban/EN/{PATTERN}/"
+        },
+
+        "output": {
+          "type": "conversation_or_file",
+          "default": "conversation",
+          "optional_file": {
+            "folder": "Title/",
+            "naming_pattern": "Title-{slug}-V{version}.md",
+            "example": "Title/Title-hoa-veteran-flagpole-V1.md"
+          },
+          "deliverables": [
+            {
+              "key": "title_options",
+              "label": "5 gợi ý Title",
+              "type": "array",
+              "count": 5,
+              "each_has": ["title_text", "formula_used", "curiosity_score", "clarity_score", "emotion_score", "gap_level", "psychology_breakdown"]
+            },
+            {
+              "key": "checklist_results",
+              "label": "Professional Checklist A-E",
+              "type": "pass_fail_map"
+            },
+            {
+              "key": "top_pick",
+              "label": "Recommended Title",
+              "type": "string"
+            },
+            {
+              "key": "thumbnail",
+              "label": "Thumbnail Suggestion",
+              "type": "structured_text",
+              "includes": ["layout", "text_overlay", "characters", "colors", "props"]
+            }
+          ]
+        },
+
+        "dependencies": ["script-en"],
+        "can_skip": false,
+        "parallel_with": ["vo-script"]
+      }
+    ],
+
+    "skip_rules": [
+      {
+        "id": "skip-idea",
+        "condition": "Idea đã đánh giá (có file trong Ideas/)",
+        "skip_phases": ["idea-evaluation"],
+        "detection": "file_exists:Ideas/**/*.md"
+      },
+      {
+        "id": "skip-outline",
+        "condition": "Dàn ý đã có (có file Outline)",
+        "skip_phases": ["idea-evaluation", "outline-creation"],
+        "detection": "file_exists:Dan Y/**/*.md"
+      },
+      {
+        "id": "skip-script",
+        "condition": "Script đã viết (có file Script)",
+        "skip_phases": ["idea-evaluation", "outline-creation", "script-vi"],
+        "detection": "file_exists:Kich Ban/VI/**/*.md"
+      },
+      {
+        "id": "skip-to-en",
+        "condition": "Script VI đã review, chỉ cần dịch EN",
+        "run_only": ["script-en"],
+        "detection": "user_request"
+      },
+      {
+        "id": "only-vo",
+        "condition": "Chỉ cần VO",
+        "run_only": ["vo-script"],
+        "detection": "user_request"
+      },
+      {
+        "id": "only-title",
+        "condition": "Chỉ cần Title",
+        "run_only": ["title-generation"],
+        "detection": "user_request"
+      }
+    ],
+
+    "patterns": {
+      "FURY": {
+        "icon": "🔥",
+        "color": "#EF4444",
+        "name": "FURY",
+        "name_vi": "Phẫn Nộ",
+        "description": "Fury → Justice → Catharsis",
+        "emotion_flow": "PHẪN NỘ → HẢ HÊ",
+        "hero_weapon": "Tuân thủ ác ý / Cộng đồng bảo vệ",
+        "hoa_patterns": [
+          {"id": "01", "name": "Malicious Compliance", "note": "solo, tone fury"},
+          {"id": "04", "name": "Sympathetic Victim"},
+          {"id": "08", "name": "Foreclosure Nightmare"}
+        ],
+        "climax_ending": "Villain TỰ HỦY",
+        "cliffhanger_tone": "Nặng, căng — Villain có đi xa hơn?"
+      },
+      "STRATEGY": {
+        "icon": "🧠",
+        "color": "#3B82F6",
+        "name": "STRATEGY",
+        "name_vi": "Chiến Lược",
+        "description": "Tension → Checkmate → Power Shift",
+        "emotion_flow": "HỒI HỘP → NỂ PHỤC",
+        "hero_weapon": "Nghiên cứu pháp lý / Chiến lược dài hạn",
+        "hoa_patterns": [
+          {"id": "02", "name": "Board Takeover"},
+          {"id": "03", "name": "Dissolve HOA"},
+          {"id": "05", "name": "Legal Trap"},
+          {"id": "06", "name": "Property Rights"},
+          {"id": "07", "name": "Financial Fraud"}
+        ],
+        "climax_ending": "Villain MẤT QUYỀN",
+        "cliffhanger_tone": "Hồi hộp, tò mò — Checkmate có hoạt động?"
+      },
+      "COMEDY": {
+        "icon": "😂",
+        "color": "#F59E0B",
+        "name": "COMEDY",
+        "name_vi": "Hài Hước",
+        "description": "Bực bội → Cười → Sảng khoái",
+        "emotion_flow": "CƯỜI + TỰ HÀO",
+        "hero_weapon": "Sáng tạo + Humor + Cộng đồng",
+        "hoa_patterns": [
+          {"id": "09", "name": "Community Comedy"},
+          {"id": "01", "name": "Malicious Compliance", "note": "tone hài > fury"}
+        ],
+        "climax_ending": "Villain BẼ MẶT rời đi",
+        "cliffhanger_tone": "Nhẹ nhàng, vui — Hero nghĩ ra gì tiếp?"
+      }
+    },
+
+    "folder_structure": {
+      "Ideas/": {
+        "description": "Ý tưởng thô (One-Liner)",
+        "subfolders_by": "category",
+        "examples": ["Sympathetic-Victim/", "Financial-Fraud/", "Board-Takeover/"]
+      },
+      "Dan Y/": {
+        "description": "Dàn ý (Outline)",
+        "subfolders_by": "PATTERN",
+        "examples": ["FURY/", "STRATEGY/", "COMEDY/"]
+      },
+      "Kich Ban/": {
+        "description": "Kịch bản (Script)",
+        "structure": {
+          "EN/": {"subfolders_by": "PATTERN"},
+          "VI/": {"subfolders_by": "PATTERN"}
+        }
+      },
+      "Review/": {
+        "description": "Kết quả review",
+        "flat": true
+      },
+      "Process VO/": {
+        "description": "Script Note cho thu âm",
+        "subfolders_by": "slug"
+      },
+      "Title/": {
+        "description": "Gợi ý title",
+        "flat": true
+      },
+      "Process/Idea Process/": {
+        "description": "Workflows + rules cho Idea phase",
+        "structure": {
+          "workflows/": "Workflow files",
+          "story-patterns/": "9 HOA story patterns",
+          "ideas-storage-rules/": "Rules lưu trữ ideas",
+          "overview/": "Cách làm việc tổng quan"
+        }
+      },
+      "Process/Outline Process/": {
+        "description": "Workflows + rules cho Outline phase",
+        "structure": {
+          "workflow/": "Workflow files",
+          "core-rules/": "Story prep, structure rules",
+          "format-rules/": "Output format",
+          "pattern-rules/": "Pattern-specific outline rules"
+        }
+      },
+      "Process/Script Process/": {
+        "description": "Workflows + rules cho Script phase",
+        "structure": {
+          "workflow/": "Workflow files",
+          "phase-rules/": "Hook + Body rules (pattern-specific)",
+          "format-and-wording/": "Format checklist + wording formula",
+          "sub-review/": "Sub-review checklists"
+        }
+      },
+      "Process/Review Process/": {
+        "description": "Workflows + rules cho Review phase",
+        "structure": {
+          "workflow/": "Workflow files",
+          "sub-review/": "Hook, Body, Final review checklists"
+        }
+      },
+      "Process/VO Process/": {
+        "description": "Workflows + rules cho VO Script phase",
+        "structure": {
+          "workflow/": "Workflow files",
+          "vo-rules/": "Foundations, tags, tagging rules, anti-patterns"
+        }
+      },
+      "Process/Title Process/": {
+        "description": "Workflows + rules cho Title phase",
+        "structure": {
+          "workflow/": "Workflow files",
+          "title-rules/": "Title generator rules (P1, P2, P3)"
+        }
+      }
+    },
+
+    "encoding_guard": {
+      "applies_to": ["vi"],
+      "check_after_save": true,
+      "fix_command": "python _tools/fix_encoding.py --fix --no-backup",
+      "symptoms": ["Ä'", "á»", "Ã¡", "Æ°", "ï¿½"],
+      "required_encoding": "UTF-8 without BOM"
+    },
+
+    "additional_workflows": {
+      "pre_sprint": [
+        {
+          "id": "phan-tich-doi-thu",
+          "file": "Idea Process/workflows/full-pipeline.md",
+          "name": "Phân tích kịch bản đối thủ",
+          "description": "Deep analysis: audience insight, cấu trúc, kỹ thuật content, visual writing, pacing, checklist áp dụng",
+          "phase": "Pre-Sprint — Research"
+        }
+      ]
+    }
+  }
+}

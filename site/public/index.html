@@ -1,0 +1,400 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teller | Content Pipeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary": "#f2e651",
+                        "surface-container-high": "#1d2025",
+                        "outline-variant": "#46484d",
+                        "surface-container-low": "#111318",
+                        "primary-container": "#97a944",
+                        "surface": "#0c0e12",
+                        "surface-container": "#171a1f",
+                        "secondary-container": "#676000",
+                        "on-surface": "#f6f6fc",
+                        "secondary-fixed": "#f2e651",
+                        "on-secondary": "#595300",
+                        "error-dim": "#d53d18",
+                        "primary": "#eafe8e",
+                        "on-tertiary-container": "#5b4b00",
+                        "on-tertiary-fixed-variant": "#665500",
+                        "on-primary": "#536200",
+                        "surface-bright": "#292c32",
+                        "primary-fixed": "#e1f586",
+                        "error": "#ff7351",
+                        "inverse-surface": "#f9f9ff",
+                        "on-secondary-container": "#fff9d1",
+                        "primary-dim": "#dcef81",
+                        "on-surface-variant": "#aaabb0",
+                        "surface-variant": "#23262c",
+                        "error-container": "#b92902",
+                        "secondary-dim": "#e4d844",
+                        "on-background": "#f6f6fc",
+                        "on-secondary-fixed-variant": "#645d00",
+                        "inverse-primary": "#566600",
+                        "tertiary-container": "#fcd83f",
+                        "outline": "#74757a",
+                        "tertiary": "#ffe794",
+                        "surface-tint": "#eafe8e",
+                        "on-primary-fixed-variant": "#586701",
+                        "tertiary-fixed-dim": "#edca30",
+                        "inverse-on-surface": "#53555a",
+                        "tertiary-dim": "#edca30",
+                        "background": "#0c0e12",
+                        "on-primary-container": "#1f2600",
+                        "tertiary-fixed": "#fcd83f",
+                        "on-error": "#450900",
+                        "on-secondary-fixed": "#454100",
+                        "surface-dim": "#0c0e12",
+                        "primary-fixed-dim": "#d3e67a",
+                        "on-primary-fixed": "#3e4900",
+                        "on-tertiary-fixed": "#463900",
+                        "on-error-container": "#ffd2c8",
+                        "surface-container-highest": "#23262c",
+                        "on-tertiary": "#655400",
+                        "surface-container-lowest": "#000000",
+                        "secondary-fixed-dim": "#e4d844"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .glass-header {
+            background: rgba(12, 14, 18, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(234, 254, 142, 0.4);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #eafe8e 0%, #97a944 100%);
+        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #23262c; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #46484d; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 selection:text-primary">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 glass-header border-b border-white/10 h-20 px-8 flex items-center justify-between max-w-[1920px] mx-auto">
+<div class="flex items-center gap-12">
+<span class="text-2xl font-black italic tracking-tighter text-[#f6f6fc]">Teller<span class="inline-block w-2 h-2 rounded-full bg-primary ml-1 shadow-[0_0_10px_#eafe8e]"></span></span>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#eafe8e] font-bold border-b-2 border-[#eafe8e] pb-1 font-['Inter'] tracking-tight" href="index.html">Dashboard</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors font-['Inter'] tracking-tight" href="index.html">Pipeline</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors font-['Inter'] tracking-tight" href="analytics.html">Analytics</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors font-['Inter'] tracking-tight" href="index.html">Assets</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex bg-surface-container-lowest rounded-full p-1 border border-white/5">
+<button class="px-4 py-1.5 rounded-full text-sm font-bold bg-primary text-on-primary shadow-lg transition-all">Channel A</button>
+<button class="px-4 py-1.5 rounded-full text-sm font-medium text-on-surface-variant hover:text-on-surface transition-colors">Channel B</button>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-full pl-10 pr-4 py-2 text-sm w-64 transition-all" placeholder="Search pipeline..." type="text"/>
+</div>
+<button class="primary-gradient text-on-primary-container px-5 py-2 rounded-lg font-bold text-sm flex items-center gap-2 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+                + New Video
+            </button>
+<div class="w-10 h-10 rounded-full border-2 border-primary/20 p-0.5">
+<img alt="User Avatar" class="w-full h-full rounded-full object-cover" data-alt="Professional male user portrait profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTq_pAvkirVTjkz5xq5wyIQ8u1azlXKEEiQlCNMTZVkXE-9VvAQzvSFVGYMiL4U2G2Ep-gnrNT6lUWj3fDEL5VzdTyOxd2BaRrIitquub3oGhBEcf2icELKXhANX0k-uBRjRqTpsrb4DCLP-Zjb4hjDy9_TR4w5wHvt3Va6HHevz7-Bv3K8nfcGkGkmzZa2TVUORi9pKA4hoQt3oZLGxRY7jrS1miPcVtSxERZe5Oga-S4tVcFFAzEdBpnty2mUuVnBAKCxw2axZNo"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-28 pb-12 px-8 max-w-[1920px] mx-auto flex gap-8">
+<div class="flex-1 space-y-12">
+<!-- Hero Section -->
+<section>
+<div class="mb-8">
+<h1 class="text-3xl font-bold tracking-tight text-on-surface mb-2">Your Content Pipeline at a Glance</h1>
+<p class="text-on-surface-variant">Track every video from idea to publish in one cinematic flow.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="glass-card p-6 rounded-xl group hover:scale-[1.02] transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">video_library</span>
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Growth +12%</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium uppercase tracking-widest mb-1">Total Videos</h3>
+<p class="text-5xl font-black text-primary tracking-tighter">24</p>
+</div>
+<!-- Stat Card 2 -->
+<div class="glass-card p-6 rounded-xl group hover:scale-[1.02] transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-surface text-3xl">pending_actions</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium uppercase tracking-widest mb-1">In Progress</h3>
+<p class="text-5xl font-black text-on-surface tracking-tighter">12</p>
+</div>
+<!-- Stat Card 3 -->
+<div class="glass-card p-6 rounded-xl group hover:scale-[1.02] transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-[#4ADE80] text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium uppercase tracking-widest mb-1">Completed</h3>
+<p class="text-5xl font-black text-[#4ADE80] tracking-tighter">8</p>
+</div>
+<!-- Stat Card 4 -->
+<div class="glass-card p-6 rounded-xl group hover:scale-[1.02] transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error text-3xl">error_outline</span>
+</div>
+<h3 class="text-on-surface-variant text-sm font-medium uppercase tracking-widest mb-1">Blocked</h3>
+<p class="text-5xl font-black text-error tracking-tighter">4</p>
+</div>
+</div>
+</section>
+<!-- Kanban Board -->
+<section class="overflow-x-auto pb-6">
+<div class="flex gap-6 min-w-[1400px]">
+<!-- Column Template: IDEA -->
+<div class="w-72 flex-shrink-0 flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Idea</h4>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">5</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 min-h-[500px] p-2 rounded-xl bg-surface-container-low/50 border border-white/5">
+<!-- Video Card -->
+<div class="glass-card p-3 rounded-lg hover:border-primary/50 transition-all cursor-pointer group">
+<div class="relative aspect-video rounded-md overflow-hidden mb-3">
+<img alt="Thumbnail" class="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all" data-alt="Abstract futuristic tech aesthetic thumbnail preview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhUY4iXi4ArijR6ZLG7qJsVpVm9AHj9FYIvXMc7Se028a65gCsYuoFGSWRWT4iuUu9WM_z7IilDtIzrKpJtaa07sZVVXXsSU0eNeODwKiv_QzMynUaEbNjYWSSSLf0wAvKaCzP_ZaP1Ugr5xroY6F3ZgFeIc-hjEsBAMxHsRXgk7il7uBJWcUSQi8uu5qAynvwitILg1_kvPcw0ZCSyrxPX2MQ97UTZbGdjC0_zMVzRnh3NBD1s9H__YlqGYS6Fef-0ze9WUFIJ2Qf"/>
+<div class="absolute bottom-1 right-1 bg-black/80 px-1 rounded text-[10px] font-bold">12:45</div>
+</div>
+<h5 class="text-sm font-bold text-on-surface line-clamp-2 mb-2 leading-tight">10 AI Tools That Will Change Everything in 2025</h5>
+<div class="flex items-center justify-between mb-3">
+<span class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold">Channel A</span>
+<span class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Due in 2d</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[15%]"></div>
+</div>
+</div>
+<!-- Simple Card -->
+<div class="glass-card p-3 rounded-lg border-dashed border-white/20 hover:border-white/40 transition-all">
+<h5 class="text-sm font-bold text-on-surface-variant mb-2 italic">The Dark Side of the Creator Economy...</h5>
+<div class="flex items-center justify-between">
+<span class="text-[10px] bg-white/5 text-on-surface-variant px-2 py-0.5 rounded-full font-bold">Channel B</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column Template: SCRIPT -->
+<div class="w-72 flex-shrink-0 flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Script</h4>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">3</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 min-h-[500px] p-2 rounded-xl bg-surface-container-low/50 border border-white/5">
+<div class="glass-card p-3 rounded-lg border-l-4 border-error hover:scale-[1.01] transition-all">
+<div class="relative aspect-video rounded-md overflow-hidden mb-3">
+<img alt="Thumbnail" class="w-full h-full object-cover" data-alt="Cinematic camera setup on a dark film set" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANxaCE2WnnHuSPdCnpWkOGc7rP9y7sPiasP-l2A58AaSh-B_2qM3-l6an7qq5QvklIz1_vgtUNtpYXmQ8lB44GFcZRmuFyvHQKWcY3BFrDrVA5RXQokcD4k2Rzic37FxuxFw8VtSkDrxOATvsdr-vWJOPo44HEa4bxmqSU3mAFT1j38cCdZhCw0Aq-FqoupK2sQOGW26vt_5euSESjpOwD60bE51XfdR5VWN08wT0gWKhatZNKvVjIFea6K1eL7mQSxuHVZKeyhyG2"/>
+</div>
+<h5 class="text-sm font-bold text-on-surface line-clamp-2 mb-2">Mastering Lighting for Minimalist Setups</h5>
+<div class="flex items-center justify-between mb-3">
+<span class="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold">Channel A</span>
+<span class="material-symbols-outlined text-error text-sm">warning</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column Template: VOICEOVER -->
+<div class="w-72 flex-shrink-0 flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Voice Over</h4>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">2</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 min-h-[500px] p-2 rounded-xl bg-surface-container-low/50 border border-white/5">
+<div class="glass-card p-3 rounded-lg">
+<h5 class="text-sm font-bold text-on-surface mb-2">Why Everyone is Switching to Mirrorless</h5>
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary text-xs">mic</span>
+<span class="text-[10px] text-primary font-bold">In Studio</span>
+</div>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column Template: EDITING -->
+<div class="w-72 flex-shrink-0 flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Editing</h4>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">4</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 min-h-[500px] p-2 rounded-xl bg-surface-container-low/50 border border-white/5">
+<div class="glass-card p-3 rounded-lg border-l-4 border-primary">
+<div class="relative aspect-video rounded-md overflow-hidden mb-3">
+<img alt="Thumbnail" class="w-full h-full object-cover" data-alt="Video editing timeline interface on a large monitor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcy2upBslJVZtTth8CQ7bKkiojqpBh4RsxaJwbAx4J7ibf2D22nHqbXfPy2kiBL8mYTSodQXvwjCpJuQ3n82quDzCUJNLL-rXLGNmQKU5VB7Cp5Ud-R1_UIh2txFKnApZ0ILy-u5y5Ob_Yr_ABB9WIpfODF10r74RgGJIeHVIhKlxEvUBbC5Nx1OUgdigp5Z4uPt6gnBiXA-FDqNPASamYmE_0wtrKGzn7f8LXM8iJYad3wGzeQT1OgVHK52qGG_7xTggPIjdk2IPw"/>
+</div>
+<h5 class="text-sm font-bold text-on-surface mb-2">The Hidden Costs of $0 Content</h5>
+<div class="w-full bg-white/5 h-1 rounded-full overflow-hidden mb-2">
+<div class="bg-primary h-full w-[85%]"></div>
+</div>
+<div class="flex items-center -space-x-2">
+<img class="w-5 h-5 rounded-full border border-surface" data-alt="Small user avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTn1CrSnyMhzwFOiDMRAh-GigRiCBy8YwlgSZ5GfB6NlK4VbrIENgw1d-vbyKh53CXpg__bAjIWLnlyGtQjdKupcCnABkV5fnrPnWuAit_JAaKs-hB1irSAJW7q6JZ1OZTWhdf6W3xo6dJATOmwizuOzclC-znPs9JT8HhZnYYYqllFRSFlpefGtPd7NvbjPliaQH0DugLqzAIENuBvhg5FCZ88YCtUzmidDnKigZ3q03qBiRlSQxn_XpFSl9NZ26xWkJnbA-CtT5O"/>
+<img class="w-5 h-5 rounded-full border border-surface" data-alt="Small user avatar female" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm_XFesTK41FTZJMx1dJhwFsNAXG_Dn3hGYJbfmF6IIYSoeFIo_QAA-qD91W0oT_Jv8gRDZC13GWWDnFtZpzFWF1BU3JINahNOGLQu8xlvZVx5XNiFhbVvODTcDkmq27xPsJC3QBDVpmgz7e6Jzv7qG_UUS5TTFApWDLmT3thYCpbfMq3mxYnn9MeifUX-YpqZK39TEOYb3se5LwzRO6nnA4ep2r0_dHM4qBXDxHQTl5aLtiOauomxdWisp_sh9L_FnbpGMUb_3P8Z"/>
+<span class="text-[10px] pl-3 text-on-surface-variant">2 Editors</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Column Template: THUMBNAIL -->
+<div class="w-72 flex-shrink-0 flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Thumbnail</h4>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">1</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 min-h-[500px] p-2 rounded-xl bg-surface-container-low/50 border border-white/5"></div>
+</div>
+<!-- Column Template: TITLE -->
+<div class="w-72 flex-shrink-0 flex flex-col gap-4">
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<h4 class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Title</h4>
+<span class="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-bold">2</span>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">add</span>
+</button>
+</div>
+<div class="flex flex-col gap-3 min-h-[500px] p-2 rounded-xl bg-surface-container-low/50 border border-white/5"></div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Side Panel -->
+<aside class="w-80 flex-shrink-0 space-y-6">
+<!-- Activity Log -->
+<div class="glass-card rounded-xl p-5 overflow-hidden">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary text-xl">history</span>
+<h4 class="text-sm font-bold uppercase tracking-widest">Activity Log</h4>
+</div>
+<div class="space-y-6 relative before:absolute before:left-[9px] before:top-2 before:bottom-2 before:w-[1px] before:bg-white/10">
+<div class="relative pl-7">
+<div class="absolute left-0 top-1 w-[18px] h-[18px] bg-primary rounded-full border-4 border-surface shadow-[0_0_10px_#eafe8e]"></div>
+<p class="text-xs text-on-surface font-medium leading-relaxed">Sarah completed editing on <span class="text-primary">"AI Trends 2025"</span></p>
+<span class="text-[10px] text-on-surface-variant">2 mins ago</span>
+</div>
+<div class="relative pl-7">
+<div class="absolute left-0 top-1 w-[18px] h-[18px] bg-white/20 rounded-full border-4 border-surface"></div>
+<p class="text-xs text-on-surface-variant leading-relaxed">New thumbnail uploaded for <span class="text-on-surface">"Mirrorless vs DSLR"</span></p>
+<span class="text-[10px] text-on-surface-variant">45 mins ago</span>
+</div>
+<div class="relative pl-7">
+<div class="absolute left-0 top-1 w-[18px] h-[18px] bg-white/20 rounded-full border-4 border-surface"></div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Script approved by Director</p>
+<span class="text-[10px] text-on-surface-variant">3 hours ago</span>
+</div>
+</div>
+</div>
+<!-- Deadline Alerts -->
+<div class="glass-card rounded-xl p-5">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-error text-xl">event_busy</span>
+<h4 class="text-sm font-bold uppercase tracking-widest">Deadline Alerts</h4>
+</div>
+<div class="space-y-3">
+<div class="bg-error/10 border border-error/20 p-3 rounded-lg flex items-center gap-3">
+<div class="flex-1">
+<h5 class="text-xs font-bold text-error">Critical Delay</h5>
+<p class="text-[11px] text-on-surface-variant">10 AI Tools: Publish deadline today!</p>
+</div>
+</div>
+<div class="bg-white/5 border border-white/5 p-3 rounded-lg">
+<h5 class="text-xs font-bold text-on-surface">Upcoming</h5>
+<p class="text-[11px] text-on-surface-variant">Mastering Lighting: Due in 24h</p>
+</div>
+</div>
+</div>
+<!-- Bottleneck Warning -->
+<div class="bg-tertiary-container/10 border border-tertiary/20 p-5 rounded-xl shadow-[0_0_30px_rgba(252,216,63,0.05)]">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary text-2xl">warning_amber</span>
+<div>
+<h4 class="text-sm font-bold text-tertiary uppercase tracking-wider mb-1">Bottleneck Detected</h4>
+<p class="text-xs text-on-surface-variant leading-normal">Script backlog: 5 videos waiting. Research phase is stalling production.</p>
+<button class="mt-4 text-[10px] font-bold uppercase tracking-widest text-tertiary border border-tertiary/30 px-3 py-1.5 rounded-md hover:bg-tertiary/10 transition-all">Review Pipeline</button>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 border-t border-white/5 bg-surface mt-20">
+<div class="max-w-[1920px] mx-auto flex flex-col md:flex-row justify-between items-center px-12 gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="text-on-surface-variant font-['Inter'] text-xs uppercase tracking-widest">© 2024 Teller • v1.0.0</span>
+</div>
+<div class="flex items-center gap-8">
+<a class="text-[#aaabb0] hover:text-[#eafe8e] transition-colors font-['Inter'] text-xs uppercase tracking-widest" href="index.html">Docs</a>
+<a class="text-[#aaabb0] hover:text-[#eafe8e] transition-colors font-['Inter'] text-xs uppercase tracking-widest" href="index.html">Support</a>
+<a class="text-[#aaabb0] hover:text-[#eafe8e] transition-colors font-['Inter'] text-xs uppercase tracking-widest" href="#">Privacy</a>
+<a class="text-[#aaabb0] hover:text-[#eafe8e] transition-colors font-['Inter'] text-xs uppercase tracking-widest" href="#">Terms</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-2 h-2 rounded-full bg-[#4ADE80] animate-pulse"></div>
+<span class="text-on-surface-variant font-['Inter'] text-xs uppercase tracking-widest">All Systems Operational</span>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,463 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Teller | Premium Analytics Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-container": "#fff9d1",
+              "on-background": "#f6f6fc",
+              "on-secondary-fixed-variant": "#645d00",
+              "tertiary-container": "#fcd83f",
+              "inverse-primary": "#566600",
+              "surface-variant": "#23262c",
+              "primary-dim": "#dcef81",
+              "on-surface-variant": "#aaabb0",
+              "error-container": "#b92902",
+              "secondary-dim": "#e4d844",
+              "surface-bright": "#292c32",
+              "primary-fixed": "#e1f586",
+              "on-primary": "#536200",
+              "inverse-surface": "#f9f9ff",
+              "error": "#ff7351",
+              "error-dim": "#d53d18",
+              "on-secondary": "#595300",
+              "secondary-fixed": "#f2e651",
+              "on-tertiary-container": "#5b4b00",
+              "on-tertiary-fixed-variant": "#665500",
+              "primary": "#eafe8e",
+              "surface-container-low": "#111318",
+              "outline-variant": "#46484d",
+              "surface-container-high": "#1d2025",
+              "surface": "#0c0e12",
+              "primary-container": "#97a944",
+              "secondary": "#f2e651",
+              "surface-container": "#171a1f",
+              "secondary-container": "#676000",
+              "on-surface": "#f6f6fc",
+              "surface-container-highest": "#23262c",
+              "surface-container-lowest": "#000000",
+              "on-tertiary": "#655400",
+              "secondary-fixed-dim": "#e4d844",
+              "on-tertiary-fixed": "#463900",
+              "primary-fixed-dim": "#d3e67a",
+              "on-primary-fixed": "#3e4900",
+              "on-error-container": "#ffd2c8",
+              "background": "#0c0e12",
+              "tertiary-dim": "#edca30",
+              "inverse-on-surface": "#53555a",
+              "on-secondary-fixed": "#454100",
+              "surface-dim": "#0c0e12",
+              "tertiary-fixed": "#fcd83f",
+              "on-primary-container": "#1f2600",
+              "on-error": "#450900",
+              "surface-tint": "#eafe8e",
+              "on-primary-fixed-variant": "#586701",
+              "outline": "#74757a",
+              "tertiary": "#ffe794",
+              "tertiary-fixed-dim": "#edca30"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #0c0e12; color: #f6f6fc; }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glow-hover:hover { box-shadow: inset 0 0 12px rgba(197, 216, 109, 0.15); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0c0e12; }
+        ::-webkit-scrollbar-thumb { background: #23262c; border-radius: 4px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-neutral-950/50 backdrop-blur-xl shadow-[0px_24px_48px_rgba(0,0,0,0.5)]">
+<nav class="flex justify-between items-center px-8 h-16 w-full max-w-[1920px] mx-auto">
+<div class="flex items-center gap-12">
+<a class="text-2xl font-bold tracking-tighter text-[#f6f6fc] after:content-['•'] after:ml-0.5 after:text-[#C5D86D]" href="#">Teller</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors font-medium" href="index.html">Dashboard</a>
+<a class="text-[#eafe8e] font-semibold border-b-2 border-[#eafe8e] pb-1" href="analytics.html">Analytics</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors font-medium" href="calendar.html">Calendar</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors font-medium" href="team.html">Team</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors font-medium" href="settings.html">Settings</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-container-highest border-none rounded-lg pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-1 focus:ring-primary/20 placeholder:text-on-surface-variant/50" placeholder="Search analytics..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-semibold active:scale-95 duration-200 transition-all shadow-[0_0_20px_rgba(197,216,109,0.2)] hover:bg-primary-dim">
+                    + New Video
+                </button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User avatar" class="h-full w-full object-cover" data-alt="User profile avatar close-up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1rFYB_Dbumm_9YlI8UHI4JWKUEQXwwxeoi4E9Y4buVReIeBTiJyJohyeJpTPux-dEj5l630NUE1gnQdP5H4qB_cjgSi_EHVqvHVq1qpj-uorEiVIq933249GNJvHLG-kRZCE___kOWq6YYs37FjKSwc4Qg75SGMA90vstpRx_NeuEzy4QJP4kBp7cuCNchTIrur1mljujqhmaYIejZkBMYOaRhMeDdjy6z_WUIFyfHqKroqrugEPU759WbISVwDWghq4YYFFNN575"/>
+</div>
+</div>
+</nav>
+</header>
+<main class="flex-grow pt-24 pb-12 px-8 max-w-[1920px] mx-auto w-full space-y-12">
+<!-- Hero Section -->
+<section class="flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="space-y-2">
+<h1 class="text-[3.5rem] font-bold leading-tight tracking-tight text-on-surface">Scale Your YouTube <span class="text-primary">Workflow</span></h1>
+<p class="text-on-surface-variant text-lg">Deep dive into your production performance and pipeline health.</p>
+</div>
+<div class="flex flex-col items-end gap-4">
+<div class="glass p-1 rounded-full flex items-center">
+<button class="px-6 py-2 rounded-full text-sm font-semibold bg-primary text-on-primary shadow-lg">Channel A</button>
+<button class="px-6 py-2 rounded-full text-sm font-semibold text-on-surface-variant hover:text-on-surface transition-colors">Channel B</button>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant bg-surface-container rounded-lg px-4 py-2 text-sm border border-outline-variant/10">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Last 30 Days: Oct 01 - Oct 31</span>
+<span class="material-symbols-outlined text-sm">expand_more</span>
+</div>
+</div>
+</section>
+<!-- KPI Cards -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="glass p-6 rounded-xl space-y-4 glow-hover transition-all">
+<div class="flex justify-between items-start">
+<p class="text-sm font-semibold tracking-widest uppercase text-on-surface-variant">Avg Time per Phase</p>
+<span class="material-symbols-outlined text-primary text-xl">timer</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-bold">3.2 days</h3>
+<span class="text-error text-xs font-bold">-12%</span>
+</div>
+<div class="h-12 w-full flex items-end gap-1">
+<div class="bg-primary/20 w-full h-1/3 rounded-sm"></div>
+<div class="bg-primary/20 w-full h-1/2 rounded-sm"></div>
+<div class="bg-primary/40 w-full h-2/3 rounded-sm"></div>
+<div class="bg-primary/30 w-full h-1/2 rounded-sm"></div>
+<div class="bg-primary/60 w-full h-full rounded-sm"></div>
+<div class="bg-primary/40 w-full h-3/4 rounded-sm"></div>
+<div class="bg-primary w-full h-5/6 rounded-sm"></div>
+</div>
+</div>
+<div class="glass p-6 rounded-xl space-y-4 glow-hover transition-all">
+<div class="flex justify-between items-start">
+<p class="text-sm font-semibold tracking-widest uppercase text-on-surface-variant">Upload Frequency</p>
+<span class="material-symbols-outlined text-primary text-xl">upload_file</span>
+</div>
+<div class="flex items-baseline gap-2">
+<h3 class="text-3xl font-bold">4 vids/wk</h3>
+<span class="text-primary text-xs font-bold">+18%</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="flex-grow h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="bg-primary h-full w-3/4 shadow-[0_0_8px_#C5D86D]"></div>
+</div>
+</div>
+</div>
+<div class="glass p-6 rounded-xl space-y-4 glow-hover transition-all border-l-4 border-l-tertiary">
+<div class="flex justify-between items-start">
+<p class="text-sm font-semibold tracking-widest uppercase text-on-surface-variant">Bottleneck Phase</p>
+<span class="material-symbols-outlined text-tertiary text-xl">warning</span>
+</div>
+<div class="flex flex-col">
+<h3 class="text-3xl font-bold">Scripting</h3>
+<p class="text-on-surface-variant text-sm mt-1">Stalling 42% of projects</p>
+</div>
+</div>
+<div class="glass p-6 rounded-xl flex items-center justify-between glow-hover transition-all">
+<div class="space-y-2">
+<p class="text-sm font-semibold tracking-widest uppercase text-on-surface-variant">Completion Rate</p>
+<h3 class="text-3xl font-bold">85%</h3>
+<p class="text-primary text-xs font-bold">On Target</p>
+</div>
+<div class="relative h-20 w-20 flex items-center justify-center">
+<svg class="h-full w-full -rotate-90">
+<circle class="text-surface-container-highest" cx="40" cy="40" fill="transparent" r="32" stroke="currentColor" stroke-width="6"></circle>
+<circle class="text-primary" cx="40" cy="40" fill="transparent" r="32" stroke="currentColor" stroke-dasharray="201" stroke-dashoffset="30" stroke-width="6"></circle>
+</svg>
+<span class="absolute text-xs font-bold">85%</span>
+</div>
+</div>
+</section>
+<!-- Charts Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-10 gap-8">
+<!-- Left: Bar Chart -->
+<div class="lg:col-span-6 glass p-8 rounded-xl space-y-8">
+<div class="flex justify-between items-center">
+<h2 class="text-xl font-semibold">Videos per Phase</h2>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+<span>Idea</span>
+<span>12</span>
+</div>
+<div class="h-8 w-full bg-surface-container rounded-md overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/40 to-primary w-[85%] relative">
+<div class="absolute inset-0 bg-white/10"></div>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+<span>Script</span>
+<span>8</span>
+</div>
+<div class="h-8 w-full bg-surface-container rounded-md overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/40 to-primary w-[60%] relative">
+<div class="absolute inset-0 bg-white/10"></div>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+<span>Voiceover</span>
+<span>5</span>
+</div>
+<div class="h-8 w-full bg-surface-container rounded-md overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/40 to-primary w-[40%] relative">
+<div class="absolute inset-0 bg-white/10"></div>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+<span>Editing</span>
+<span>14</span>
+</div>
+<div class="h-8 w-full bg-surface-container rounded-md overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/40 to-primary w-[95%] relative">
+<div class="absolute inset-0 bg-white/10"></div>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-xs font-semibold text-on-surface-variant uppercase tracking-wider">
+<span>Thumbnail</span>
+<span>6</span>
+</div>
+<div class="h-8 w-full bg-surface-container rounded-md overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary/40 to-primary w-[45%] relative">
+<div class="absolute inset-0 bg-white/10"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Funnel Diagram -->
+<div class="lg:col-span-4 glass p-8 rounded-xl space-y-8 flex flex-col">
+<h2 class="text-xl font-semibold">Pipeline Flow</h2>
+<div class="flex-grow flex flex-col justify-center items-center gap-2">
+<div class="w-full h-16 glass rounded-lg flex items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-y-0 left-0 bg-primary/10 w-full"></div>
+<span class="relative z-10 font-bold text-sm tracking-widest uppercase">100% Inbound Ideas</span>
+</div>
+<span class="material-symbols-outlined text-primary/40">south</span>
+<div class="w-[85%] h-16 glass rounded-lg flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-y-0 left-0 bg-primary/15 w-full"></div>
+<span class="relative z-10 font-bold text-sm tracking-widest uppercase">82% Scripted</span>
+</div>
+<span class="material-symbols-outlined text-primary/30">south</span>
+<div class="w-[65%] h-16 glass rounded-lg flex items-center justify-center relative overflow-hidden">
+<div class="absolute inset-y-0 left-0 bg-primary/20 w-full"></div>
+<span class="relative z-10 font-bold text-sm tracking-widest uppercase">64% Edited</span>
+</div>
+<span class="material-symbols-outlined text-primary/20">south</span>
+<div class="w-[45%] h-16 glass rounded-lg flex items-center justify-center relative overflow-hidden border-primary/40 border">
+<div class="absolute inset-y-0 left-0 bg-primary/30 w-full"></div>
+<span class="relative z-10 font-bold text-sm tracking-widest uppercase text-primary">42% Live</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Phase Table -->
+<section class="space-y-6">
+<h2 class="text-xl font-semibold">Phase Performance</h2>
+<div class="glass rounded-xl overflow-hidden overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container text-xs font-bold uppercase tracking-widest text-on-surface-variant">
+<tr>
+<th class="px-8 py-4">Phase</th>
+<th class="px-8 py-4">Avg Duration</th>
+<th class="px-8 py-4">Videos In Phase</th>
+<th class="px-8 py-4">Bottleneck Score</th>
+<th class="px-8 py-4">Trend</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 font-semibold text-on-surface">Ideation</td>
+<td class="px-8 py-5">1.2 days</td>
+<td class="px-8 py-5">14</td>
+<td class="px-8 py-5">
+<div class="w-32 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[15%]"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-primary">
+<span class="material-symbols-outlined align-middle">trending_up</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 font-semibold text-on-surface">Scripting</td>
+<td class="px-8 py-5">4.8 days</td>
+<td class="px-8 py-5">8</td>
+<td class="px-8 py-5">
+<div class="w-32 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[85%]"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-error">
+<span class="material-symbols-outlined align-middle">trending_down</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 font-semibold text-on-surface">Voiceover</td>
+<td class="px-8 py-5">0.5 days</td>
+<td class="px-8 py-5">3</td>
+<td class="px-8 py-5">
+<div class="w-32 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[5%]"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-on-surface-variant">
+<span class="material-symbols-outlined align-middle">horizontal_rule</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 font-semibold text-on-surface">Editing</td>
+<td class="px-8 py-5">2.9 days</td>
+<td class="px-8 py-5">12</td>
+<td class="px-8 py-5">
+<div class="w-32 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[55%]"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-primary">
+<span class="material-symbols-outlined align-middle">trending_up</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 font-semibold text-on-surface">Thumbnail</td>
+<td class="px-8 py-5">0.8 days</td>
+<td class="px-8 py-5">6</td>
+<td class="px-8 py-5">
+<div class="w-32 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[20%]"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-primary">
+<span class="material-symbols-outlined align-middle">trending_up</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 font-semibold text-on-surface">Quality Check</td>
+<td class="px-8 py-5">1.5 days</td>
+<td class="px-8 py-5">4</td>
+<td class="px-8 py-5">
+<div class="w-32 h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[40%]"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-error">
+<span class="material-symbols-outlined align-middle">trending_down</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Activity Timeline -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 glass rounded-xl p-8 space-y-6">
+<h2 class="text-xl font-semibold">Recent Completions</h2>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg group hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="font-semibold">The Future of AI Content Creation</p>
+<p class="text-xs text-on-surface-variant">Production Time: 4.2 days</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Channel A</span>
+<span class="text-sm text-on-surface-variant">Oct 28</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg group hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="font-semibold">Why Most Channels Fail in 2024</p>
+<p class="text-xs text-on-surface-variant">Production Time: 3.1 days</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Channel B</span>
+<span class="text-sm text-on-surface-variant">Oct 26</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg group hover:bg-surface-container-high transition-all">
+<div class="flex items-center gap-4">
+<div class="h-10 w-10 bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="font-semibold">10 Editing Hacks for Retention</p>
+<p class="text-xs text-on-surface-variant">Production Time: 5.8 days</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-3 py-1 bg-surface-container-highest rounded-full text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">Channel A</span>
+<span class="text-sm text-on-surface-variant">Oct 24</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Promotion/CTA Area (Asymmetric Element) -->
+<div class="glass rounded-xl p-8 relative overflow-hidden flex flex-col justify-end min-h-[300px]">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/20 blur-[60px] rounded-full -mr-16 -mt-16"></div>
+<div class="relative z-10 space-y-4">
+<span class="px-2 py-1 bg-primary text-on-primary text-[10px] font-bold rounded uppercase">New Feature</span>
+<h3 class="text-2xl font-bold">Predictive Timeline Insights</h3>
+<p class="text-on-surface-variant text-sm">Our new ML model can now predict bottlenecks before they happen. Connect your calendar to sync.</p>
+<button class="w-full py-3 glass hover:bg-white/10 text-sm font-semibold rounded-lg transition-all border-outline-variant/20">Enable Pro Analytics</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-8 mt-auto border-t border-[#46484d]/15 bg-[#0c0e12]">
+<div class="flex justify-between items-center px-8 w-full max-w-[1920px] mx-auto">
+<div class="text-[0.75rem] font-semibold uppercase tracking-widest text-[#aaabb0]">© 2024 Teller</div>
+<div class="flex items-center gap-8">
+<a class="text-[0.75rem] font-semibold uppercase tracking-widest text-[#aaabb0] hover:text-[#eafe8e] transition-colors" href="index.html">Docs</a>
+<a class="text-[0.75rem] font-semibold uppercase tracking-widest text-[#aaabb0] hover:text-[#eafe8e] transition-colors" href="index.html">Support</a>
+<span class="text-[0.75rem] font-semibold uppercase tracking-widest text-[#46484d]">v1.0.0</span>
+</div>
+</div>
+</footer>
+</body></html>

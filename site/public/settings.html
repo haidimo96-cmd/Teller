@@ -1,0 +1,408 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .lime-glow {
+            text-shadow: 0 0 12px rgba(234, 254, 142, 0.4);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #46484d;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "error-dim": "#d53d18",
+                "on-primary-fixed-variant": "#586701",
+                "on-secondary": "#595300",
+                "surface-container-highest": "#23262c",
+                "tertiary-fixed": "#fcd83f",
+                "secondary": "#f2e651",
+                "on-secondary-container": "#fff9d1",
+                "surface-container-high": "#1d2025",
+                "outline": "#74757a",
+                "inverse-surface": "#f9f9ff",
+                "background": "#0c0e12",
+                "surface-container-lowest": "#000000",
+                "inverse-primary": "#566600",
+                "on-tertiary-fixed-variant": "#665500",
+                "on-secondary-fixed-variant": "#645d00",
+                "primary": "#eafe8e",
+                "on-tertiary-fixed": "#463900",
+                "on-secondary-fixed": "#454100",
+                "surface-variant": "#23262c",
+                "tertiary-dim": "#edca30",
+                "primary-fixed-dim": "#d3e67a",
+                "on-tertiary": "#655400",
+                "surface-container": "#171a1f",
+                "tertiary-fixed-dim": "#edca30",
+                "on-tertiary-container": "#5b4b00",
+                "outline-variant": "#46484d",
+                "on-surface": "#f6f6fc",
+                "primary-dim": "#dcef81",
+                "tertiary-container": "#fcd83f",
+                "surface-tint": "#eafe8e",
+                "surface": "#0c0e12",
+                "on-surface-variant": "#aaabb0",
+                "on-error": "#450900",
+                "on-primary-fixed": "#3e4900",
+                "secondary-fixed-dim": "#e4d844",
+                "tertiary": "#ffe794",
+                "surface-dim": "#0c0e12",
+                "on-error-container": "#ffd2c8",
+                "surface-bright": "#292c32",
+                "secondary-container": "#676000",
+                "on-background": "#f6f6fc",
+                "secondary-fixed": "#f2e651",
+                "error": "#ff7351",
+                "surface-container-low": "#111318",
+                "secondary-dim": "#e4d844",
+                "inverse-on-surface": "#53555a",
+                "primary-fixed": "#e1f586",
+                "error-container": "#b92902",
+                "on-primary-container": "#1f2600",
+                "primary-container": "#97a944",
+                "on-primary": "#536200"
+              },
+              fontFamily: {
+                "headline": ["Inter"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen flex flex-col selection:bg-primary selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 z-50 w-full h-16 bg-[#0c0e12]/80 backdrop-blur-lg flex justify-between items-center px-8 shadow-2xl shadow-black/50">
+<div class="flex items-center gap-12">
+<a class="text-xl font-black text-[#f6f6fc] flex items-center gap-1 after:content-[''] after:w-2 after:h-2 after:bg-[#eafe8e] after:rounded-full after:shadow-[0_0_8px_#eafe8e]" href="#">Teller</a>
+<nav class="hidden md:flex gap-8 items-center font-['Inter'] text-sm font-medium tracking-wide">
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="index.html">Dashboard</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="analytics.html">Analytics</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="calendar.html">Calendar</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="team.html">Team</a>
+<a class="text-[#eafe8e] border-b-2 border-[#eafe8e] pb-1" href="settings.html">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary w-48 transition-all group-hover:w-64" placeholder="Search..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-primary-dim active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+                + New Video
+            </button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant/20 hover:border-primary/50 transition-colors cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7tQeCOYZsvu9i8LNFbju8mwZn2SAXxyRfP1y0o-y8qGi2xONnPuKqHg0Rk8L7kyfcce_3QF4ycEA3tOscH0zkjXiqaYq8h7vEyjPYEXsJ4uVXu66y-tTm8zOs4sEMyxYc5V0HAdwAhFYh6V35UKb40-Jtkkj1FlW8ZX_JNtUjo00EssHIQ9IPS4B8Eo77QpNZbNL0WOht9EwRwQLouteB53vCD_zdEg7q_VQmrHVEpkl64Lbs-oPPFMVIMFUbXSQkfOWhspuL37NF"/>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-24 px-8 pb-12 max-w-[1440px] mx-auto w-full">
+<!-- Hero Section -->
+<div class="mb-10">
+<h1 class="text-[2.75rem] font-black tracking-tight text-on-surface mb-2">Settings</h1>
+<p class="text-on-surface-variant text-lg">Customize your Teller experience</p>
+</div>
+<div class="flex gap-8 items-start">
+<!-- SideNavBar -->
+<aside class="w-64 flex flex-col p-4 gap-2 bg-white/5 backdrop-blur-xl rounded-xl shadow-[24px_0_48px_rgba(0,0,0,0.5)] sticky top-24">
+<div class="mb-6 px-4">
+<h2 class="text-[#f6f6fc] font-bold text-lg">Settings</h2>
+<p class="text-[#aaabb0] text-xs uppercase tracking-[0.05em]">Manage your workspace</p>
+</div>
+<nav class="flex flex-col gap-2 font-['Inter'] text-xs uppercase tracking-[0.05em]">
+<a class="flex items-center gap-3 bg-[#eafe8e] text-[#536200] rounded-lg px-4 py-3 shadow-[0_0_15px_rgba(234,254,142,0.3)] hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+                        Profile
+                    </a>
+<a class="flex items-center gap-3 text-[#aaabb0] px-4 py-3 hover:bg-white/5 hover:backdrop-brightness-125 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="subscriptions">subscriptions</span>
+                        Channels
+                    </a>
+<a class="flex items-center gap-3 text-[#aaabb0] px-4 py-3 hover:bg-white/5 hover:backdrop-brightness-125 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                        Notifications
+                    </a>
+<a class="flex items-center gap-3 text-[#aaabb0] px-4 py-3 hover:bg-white/5 hover:backdrop-brightness-125 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+                        Workflow
+                    </a>
+<a class="flex items-center gap-3 text-[#aaabb0] px-4 py-3 hover:bg-white/5 hover:backdrop-brightness-125 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="palette">palette</span>
+                        Appearance
+                    </a>
+<a class="flex items-center gap-3 text-[#aaabb0] px-4 py-3 hover:bg-white/5 hover:backdrop-brightness-125 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="extension">extension</span>
+                        Integrations
+                    </a>
+<a class="flex items-center gap-3 text-[#aaabb0] px-4 py-3 hover:bg-white/5 hover:backdrop-brightness-125 rounded-lg hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                        Billing
+                    </a>
+</nav>
+</aside>
+<!-- Content Area -->
+<div class="flex-grow flex flex-col gap-12 max-w-4xl">
+<!-- Profile Section -->
+<section class="bg-surface-container rounded-xl p-8 border border-outline-variant/10 shadow-lg">
+<h3 class="text-xl font-bold mb-8 flex items-center gap-2">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                        Profile Information
+                    </h3>
+<div class="flex items-start gap-12">
+<div class="flex flex-col items-center gap-4">
+<div class="relative group">
+<div class="w-24 h-24 rounded-full overflow-hidden border-2 border-primary/30 ring-4 ring-primary/5">
+<img class="w-full h-full object-cover" data-alt="Large user avatar profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7tQeCOYZsvu9i8LNFbju8mwZn2SAXxyRfP1y0o-y8qGi2xONnPuKqHg0Rk8L7kyfcce_3QF4ycEA3tOscH0zkjXiqaYq8h7vEyjPYEXsJ4uVXu66y-tTm8zOs4sEMyxYc5V0HAdwAhFYh6V35UKb40-Jtkkj1FlW8ZX_JNtUjo00EssHIQ9IPS4B8Eo77QpNZbNL0WOht9EwRwQLouteB53vCD_zdEg7q_VQmrHVEpkl64Lbs-oPPFMVIMFUbXSQkfOWhspuL37NF"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-surface-bright p-1.5 rounded-full border border-outline-variant shadow-lg hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</button>
+</div>
+<button class="text-xs font-bold text-primary uppercase tracking-widest hover:underline">Change Avatar</button>
+</div>
+<div class="flex-grow grid grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold">Display Name</label>
+<input class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-primary/50 focus:ring-0 transition-all text-on-surface" type="text" value="Alex Rivera"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold">Email Address</label>
+<input class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-primary/50 focus:ring-0 transition-all text-on-surface" type="email" value="alex@teller.app"/>
+</div>
+<div class="flex flex-col gap-2 col-span-2">
+<label class="text-[0.6875rem] uppercase tracking-widest text-on-surface-variant font-bold">Bio</label>
+<textarea class="bg-white/5 border border-white/10 rounded-lg px-4 py-3 focus:border-primary/50 focus:ring-0 transition-all text-on-surface resize-none" rows="3">Content Strategist &amp; Lead Editor for Teller Studios.</textarea>
+</div>
+<div class="col-span-2 pt-4">
+<button class="bg-primary text-on-primary px-8 py-3 rounded-lg font-bold hover:shadow-[0_0_20px_rgba(234,254,142,0.3)] transition-all active:scale-95">Save Changes</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Channels Section -->
+<section class="bg-surface-container rounded-xl p-8 border border-outline-variant/10 shadow-lg">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold flex items-center gap-2">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                            Manage Channels
+                        </h3>
+<button class="flex items-center gap-2 px-4 py-2 border border-primary/30 rounded-lg text-primary text-sm font-bold hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+                            Add Channel
+                        </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Channel A -->
+<div class="bg-white/5 rounded-xl p-5 border border-white/5 flex items-start gap-4 hover:border-primary/20 transition-all group">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-red-500 to-red-800 flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-on-surface">Teller Tech</h4>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="text-on-surface-variant hover:text-error"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mb-3">youtube.com/c/tellertech</p>
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant font-bold">Subscribers</span>
+<span class="text-sm font-black text-primary">1.2M</span>
+</div>
+<div class="flex flex-col border-l border-white/10 pl-4">
+<span class="text-[10px] uppercase text-on-surface-variant font-bold">Linked</span>
+<span class="text-sm font-medium">Jan 12, 2024</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Channel B -->
+<div class="bg-white/5 rounded-xl p-5 border border-white/5 flex items-start gap-4 hover:border-primary/20 transition-all group">
+<div class="w-12 h-12 rounded-lg bg-gradient-to-br from-indigo-500 to-indigo-800 flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">movie_edit</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-on-surface">Teller Creative</h4>
+<div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-sm">edit</span></button>
+<button class="text-on-surface-variant hover:text-error"><span class="material-symbols-outlined text-sm">delete</span></button>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant mb-3">youtube.com/c/tellercreative</p>
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-on-surface-variant font-bold">Subscribers</span>
+<span class="text-sm font-black text-primary">842K</span>
+</div>
+<div class="flex flex-col border-l border-white/10 pl-4">
+<span class="text-[10px] uppercase text-on-surface-variant font-bold">Linked</span>
+<span class="text-sm font-medium">Mar 05, 2024</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Notifications Section -->
+<section class="bg-surface-container rounded-xl p-8 border border-outline-variant/10 shadow-lg">
+<h3 class="text-xl font-bold mb-8 flex items-center gap-2">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                        Notifications
+                    </h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between py-2">
+<div>
+<h4 class="font-bold text-on-surface">Deadline Reminders</h4>
+<p class="text-sm text-on-surface-variant">Get notified 24 hours before a video milestone is due.</p>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary relative flex items-center px-1 transition-colors">
+<span class="w-4 h-4 bg-on-primary rounded-full absolute right-1"></span>
+</button>
+</div>
+<div class="flex items-center justify-between py-2 border-t border-white/5">
+<div>
+<h4 class="font-bold text-on-surface">Phase Completion</h4>
+<p class="text-sm text-on-surface-variant">Alert me when a team member finishes an editing or scripting phase.</p>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary relative flex items-center px-1 transition-colors">
+<span class="w-4 h-4 bg-on-primary rounded-full absolute right-1"></span>
+</button>
+</div>
+<div class="flex items-center justify-between py-2 border-t border-white/5">
+<div>
+<h4 class="font-bold text-on-surface">Bottleneck Alerts</h4>
+<p class="text-sm text-on-surface-variant">Notify when a video stays in the same phase for more than 48 hours.</p>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary relative flex items-center px-1 transition-colors">
+<span class="w-4 h-4 bg-on-primary rounded-full absolute right-1"></span>
+</button>
+</div>
+<div class="flex items-center justify-between py-2 border-t border-white/5">
+<div>
+<h4 class="font-bold text-on-surface">Team Activity</h4>
+<p class="text-sm text-on-surface-variant">Real-time alerts for all team comments and file uploads.</p>
+</div>
+<button class="w-12 h-6 rounded-full bg-white/10 relative flex items-center px-1 transition-colors">
+<span class="w-4 h-4 bg-on-surface-variant rounded-full absolute left-1"></span>
+</button>
+</div>
+<div class="flex items-center justify-between py-2 border-t border-white/5">
+<div>
+<h4 class="font-bold text-on-surface">Weekly Report</h4>
+<p class="text-sm text-on-surface-variant">Receive a condensed performance summary every Monday.</p>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary relative flex items-center px-1 transition-colors">
+<span class="w-4 h-4 bg-on-primary rounded-full absolute right-1"></span>
+</button>
+</div>
+</div>
+</section>
+<!-- Workflow Section -->
+<section class="bg-surface-container rounded-xl p-8 border border-outline-variant/10 shadow-lg mb-8">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold flex items-center gap-2">
+<span class="w-1.5 h-6 bg-primary rounded-full"></span>
+                            Pipeline Workflow
+                        </h3>
+<div class="flex items-center gap-3">
+<span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Auto-assign</span>
+<button class="w-10 h-5 rounded-full bg-primary relative flex items-center px-1 transition-colors">
+<span class="w-3 h-3 bg-on-primary rounded-full absolute right-1"></span>
+</button>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-4 bg-white/5 p-4 rounded-lg border border-white/5 group hover:border-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant cursor-grab">drag_indicator</span>
+<span class="text-sm font-bold flex-grow">1. Research &amp; Scripting</span>
+<div class="flex items-center gap-2">
+<input class="bg-surface-container-low border-none rounded w-12 text-center text-sm py-1 focus:ring-1 focus:ring-primary" type="number" value="3"/>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Days</span>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white/5 p-4 rounded-lg border border-white/5 group hover:border-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant cursor-grab">drag_indicator</span>
+<span class="text-sm font-bold flex-grow">2. Storyboarding</span>
+<div class="flex items-center gap-2">
+<input class="bg-surface-container-low border-none rounded w-12 text-center text-sm py-1 focus:ring-1 focus:ring-primary" type="number" value="2"/>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Days</span>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white/5 p-4 rounded-lg border border-white/5 group hover:border-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant cursor-grab">drag_indicator</span>
+<span class="text-sm font-bold flex-grow">3. Voiceover &amp; Audio</span>
+<div class="flex items-center gap-2">
+<input class="bg-surface-container-low border-none rounded w-12 text-center text-sm py-1 focus:ring-1 focus:ring-primary" type="number" value="1"/>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Days</span>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white/5 p-4 rounded-lg border border-white/5 group hover:border-primary/20 transition-all border-l-2 border-l-primary/50">
+<span class="material-symbols-outlined text-on-surface-variant cursor-grab">drag_indicator</span>
+<span class="text-sm font-bold flex-grow">4. Video Editing (Main)</span>
+<div class="flex items-center gap-2">
+<input class="bg-surface-container-low border-none rounded w-12 text-center text-sm py-1 focus:ring-1 focus:ring-primary" type="number" value="5"/>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Days</span>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white/5 p-4 rounded-lg border border-white/5 group hover:border-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant cursor-grab">drag_indicator</span>
+<span class="text-sm font-bold flex-grow">5. Graphics &amp; Animation</span>
+<div class="flex items-center gap-2">
+<input class="bg-surface-container-low border-none rounded w-12 text-center text-sm py-1 focus:ring-1 focus:ring-primary" type="number" value="3"/>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Days</span>
+</div>
+</div>
+<div class="flex items-center gap-4 bg-white/5 p-4 rounded-lg border border-white/5 group hover:border-primary/20 transition-all">
+<span class="material-symbols-outlined text-on-surface-variant cursor-grab">drag_indicator</span>
+<span class="text-sm font-bold flex-grow">6. Final Review &amp; Export</span>
+<div class="flex items-center gap-2">
+<input class="bg-surface-container-low border-none rounded w-12 text-center text-sm py-1 focus:ring-1 focus:ring-primary" type="number" value="1"/>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase">Days</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-6 mt-auto bg-[#0c0e12]/40 backdrop-blur-md flex justify-between items-center px-12 border-t border-white/5">
+<span class="font-['Inter'] text-[0.6875rem] uppercase tracking-widest text-[#aaabb0]">© 2024 Teller | v1.0.0</span>
+<div class="flex gap-8 font-['Inter'] text-[0.6875rem] uppercase tracking-widest text-[#aaabb0]">
+<a class="hover:text-[#f6f6fc] underline-offset-4 hover:underline transition-opacity" href="index.html">Docs</a>
+<a class="hover:text-[#f6f6fc] underline-offset-4 hover:underline transition-opacity" href="index.html">Support</a>
+</div>
+</footer>
+</body></html>

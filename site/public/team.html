@@ -1,0 +1,507 @@
+﻿<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .ghost-border {
+            border: 1px solid rgba(70, 72, 77, 0.2);
+        }
+        body {
+            background-color: #0c0e12;
+            color: #f6f6fc;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#111318",
+                        "on-primary": "#536200",
+                        "error-container": "#b92902",
+                        "primary-fixed": "#e1f586",
+                        "error-dim": "#d53d18",
+                        "secondary-dim": "#e4d844",
+                        "secondary": "#f2e651",
+                        "surface-bright": "#292c32",
+                        "inverse-primary": "#566600",
+                        "on-tertiary-fixed": "#463900",
+                        "on-primary-fixed-variant": "#586701",
+                        "primary-dim": "#dcef81",
+                        "primary": "#eafe8e",
+                        "on-secondary-fixed": "#454100",
+                        "on-tertiary-container": "#5b4b00",
+                        "surface-container-lowest": "#000000",
+                        "background": "#0c0e12",
+                        "outline": "#74757a",
+                        "on-surface": "#f6f6fc",
+                        "error": "#ff7351",
+                        "on-surface-variant": "#aaabb0",
+                        "surface-variant": "#23262c",
+                        "on-secondary-container": "#fff9d1",
+                        "primary-fixed-dim": "#d3e67a",
+                        "surface-container-high": "#1d2025",
+                        "secondary-fixed": "#f2e651",
+                        "tertiary-fixed-dim": "#edca30",
+                        "on-secondary-fixed-variant": "#645d00",
+                        "surface-tint": "#eafe8e",
+                        "secondary-fixed-dim": "#e4d844",
+                        "on-secondary": "#595300",
+                        "surface-dim": "#0c0e12",
+                        "secondary-container": "#676000",
+                        "tertiary-container": "#fcd83f",
+                        "surface": "#0c0e12",
+                        "surface-container": "#171a1f",
+                        "on-error-container": "#ffd2c8",
+                        "inverse-on-surface": "#53555a",
+                        "on-background": "#f6f6fc",
+                        "on-primary-container": "#1f2600",
+                        "inverse-surface": "#f9f9ff",
+                        "surface-container-highest": "#23262c",
+                        "outline-variant": "#46484d",
+                        "tertiary": "#ffe794",
+                        "on-tertiary": "#655400",
+                        "on-error": "#450900",
+                        "on-tertiary-fixed-variant": "#665500",
+                        "primary-container": "#97a944",
+                        "tertiary-fixed": "#fcd83f",
+                        "on-primary-fixed": "#3e4900",
+                        "tertiary-dim": "#edca30"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background">
+<!-- Shared TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-[#46484d]/20 shadow-2xl shadow-black/50">
+<div class="flex justify-between items-center h-20 px-8 w-full mx-auto">
+<div class="text-2xl font-black text-[#f6f6fc] flex items-center gap-2 before:content-[''] before:w-2 before:h-2 before:bg-[#eafe8e] before:rounded-full before:shadow-[0_0_10px_#eafe8e]">
+                Teller
+            </div>
+<div class="hidden md:flex items-center gap-8 font-['Inter'] tracking-tight text-[#f6f6fc]">
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="index.html">Dashboard</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="analytics.html">Analytics</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="calendar.html">Calendar</a>
+<a class="text-[#eafe8e] font-bold border-b-2 border-[#eafe8e] pb-1" href="team.html">Team</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="settings.html">Settings</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="bg-[#eafe8e] text-[#1f2600] px-5 py-2 rounded-lg font-bold hover:opacity-90 active:scale-95 duration-200">
+                    + New Video
+                </button>
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden ghost-border">
+<img class="w-full h-full object-cover" data-alt="User avatar profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbKiXVcOFEaPmq6xqlLuV6cUr_B8VM9QTOJ5trGxX2kTiNYQvuWPgBBF-b9Bzb3ChktXHTfS64soHOs62Uw0kUTZCLBE3DNQX_dYbG3ZtIZRmDNkXvzEYGP0BE4SNawqeAg_ZSCy6Tm8YxUSjvDZTNQ8tHM53JQOilXqmraNt0F_OeUGvQFHc0BJ8QMjGU0aezyFCwkMs0qBP3QKEJALaC5Tt3UTh2VXT369LF0z0mJTT8VQT9HDMctb74XVoJD5c5VE0QVXhMFQDH"/>
+</div>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-8 max-w-[1440px] mx-auto space-y-16">
+<!-- Hero Section -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="space-y-2">
+<div class="flex items-center gap-3">
+<h1 class="text-[28px] font-bold text-on-surface tracking-tight">Your Team</h1>
+<span class="glass-panel ghost-border px-3 py-1 rounded-full text-xs font-bold text-primary-fixed uppercase tracking-widest">5 members</span>
+</div>
+<p class="text-on-surface-variant max-w-xl">Manage workloads and track contributions across the obsidian content pipeline.</p>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-on-primary-container px-6 py-3 rounded-lg font-bold flex items-center gap-2 hover:opacity-90 transition-all shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-[20px]">person_add</span>
+                Invite Member
+            </button>
+</section>
+<!-- Team Overview Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+<!-- Member Card 1 -->
+<div class="bg-surface-container-low rounded-xl p-6 ghost-border flex flex-col items-center text-center group hover:bg-surface-container transition-all">
+<div class="relative mb-4">
+<img class="w-16 h-16 rounded-full object-cover ghost-border" data-alt="Profile of team member script writer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfkMJT7rmRl48al5BdoTT5XrxBb1PJ8OlXqsirTsdKlySWkqf3zmnyaUrAtY3UN8CcGks724I5x21I18pblKFs7UWvpjPtJLqIrQjC91SCvNOvg8EN4Cbn7hMIVrBxLXfdvoVLWiOMmJs4Qg6KBG4nysN3eZOELH0Uk7vT24WPy2CxRvK2L3VAs2efHa4XOx7YSEMjKAIwauV_MIr7T6ODK0S7De6B7uzW_IVkGXXIlY3lgrWNn0bHuq3eQKyQmo6xvCyvo9tSc7jl"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-primary border-2 border-background rounded-full"></div>
+</div>
+<h3 class="font-bold text-on-surface">Alex Rivera</h3>
+<p class="text-sm text-on-surface-variant mb-4">Script Writer</p>
+<div class="w-full flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">WORKLOAD</span>
+<span class="text-primary">45%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mb-6">
+<div class="h-full bg-primary rounded-full" style="width: 45%"></div>
+</div>
+<div class="grid grid-cols-2 w-full gap-2 mb-6">
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">ACTIVE</div>
+<div class="font-bold text-on-surface">3</div>
+</div>
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">DONE</div>
+<div class="font-bold text-on-surface">12</div>
+</div>
+</div>
+<div class="flex gap-2 w-full">
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">Profile</button>
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 text-on-primary-container bg-primary rounded-lg hover:opacity-90 transition-colors">Assign</button>
+</div>
+</div>
+<!-- Member Card 2 -->
+<div class="bg-surface-container-low rounded-xl p-6 ghost-border flex flex-col items-center text-center group hover:bg-surface-container transition-all">
+<div class="relative mb-4">
+<img class="w-16 h-16 rounded-full object-cover ghost-border" data-alt="Profile of team member lead editor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIkw19x2XJRdeMgUQAO_0wRhq5v5hOfzF3B80XcEguGJvVo1LYrofOuGr1-pLyf3QQ_0B6-wnF9o32AnCnH_u1n0fKVkdrVeT3Ne6ALTqA21ugMdRY03JxwovQXkySiLJJ05qGR_E5w5OWSAMS5c-JZEBFhk_q-9H3xRi6xwIBPAkmNXnORbQN0FHqt0B708fgO5BtW5dnHIT2g2ix0pPbJO452bA_InSDhTc0EXWeZmVn3waY0OSINTUiSsIMutFlYvlno-42Q6xk"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-error border-2 border-background rounded-full"></div>
+</div>
+<h3 class="font-bold text-on-surface">Sarah Chen</h3>
+<p class="text-sm text-on-surface-variant mb-4">Lead Editor</p>
+<div class="w-full flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">WORKLOAD</span>
+<span class="text-error">92%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mb-6">
+<div class="h-full bg-error rounded-full" style="width: 92%"></div>
+</div>
+<div class="grid grid-cols-2 w-full gap-2 mb-6">
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">ACTIVE</div>
+<div class="font-bold text-on-surface">8</div>
+</div>
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">DONE</div>
+<div class="font-bold text-on-surface">45</div>
+</div>
+</div>
+<div class="flex gap-2 w-full">
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">Profile</button>
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 text-on-primary-container bg-primary rounded-lg hover:opacity-90 transition-colors">Assign</button>
+</div>
+</div>
+<!-- Member Card 3 -->
+<div class="bg-surface-container-low rounded-xl p-6 ghost-border flex flex-col items-center text-center group hover:bg-surface-container transition-all">
+<div class="relative mb-4">
+<img class="w-16 h-16 rounded-full object-cover ghost-border" data-alt="Profile of team member VO Artist" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbKiXVcOFEaPmq6xqlLuV6cUr_B8VM9QTOJ5trGxX2kTiNYQvuWPgBBF-b9Bzb3ChktXHTfS64soHOs62Uw0kUTZCLBE3DNQX_dYbG3ZtIZRmDNkXvzEYGP0BE4SNawqeAg_ZSCy6Tm8YxUSjvDZTNQ8tHM53JQOilXqmraNt0F_OeUGvQFHc0BJ8QMjGU0aezyFCwkMs0qBP3QKEJALaC5Tt3UTh2VXT369LF0z0mJTT8VQT9HDMctb74XVoJD5c5VE0QVXhMFQDH"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-primary border-2 border-background rounded-full"></div>
+</div>
+<h3 class="font-bold text-on-surface">Marcus Thorne</h3>
+<p class="text-sm text-on-surface-variant mb-4">VO Artist</p>
+<div class="w-full flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">WORKLOAD</span>
+<span class="text-secondary">72%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mb-6">
+<div class="h-full bg-secondary rounded-full" style="width: 72%"></div>
+</div>
+<div class="grid grid-cols-2 w-full gap-2 mb-6">
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">ACTIVE</div>
+<div class="font-bold text-on-surface">4</div>
+</div>
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">DONE</div>
+<div class="font-bold text-on-surface">28</div>
+</div>
+</div>
+<div class="flex gap-2 w-full">
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">Profile</button>
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 text-on-primary-container bg-primary rounded-lg hover:opacity-90 transition-colors">Assign</button>
+</div>
+</div>
+<!-- Member Card 4 -->
+<div class="bg-surface-container-low rounded-xl p-6 ghost-border flex flex-col items-center text-center group hover:bg-surface-container transition-all">
+<div class="relative mb-4">
+<img class="w-16 h-16 rounded-full object-cover ghost-border" data-alt="Profile of team member Researcher" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbKiXVcOFEaPmq6xqlLuV6cUr_B8VM9QTOJ5trGxX2kTiNYQvuWPgBBF-b9Bzb3ChktXHTfS64soHOs62Uw0kUTZCLBE3DNQX_dYbG3ZtIZRmDNkXvzEYGP0BE4SNawqeAg_ZSCy6Tm8YxUSjvDZTNQ8tHM53JQOilXqmraNt0F_OeUGvQFHc0BJ8QMjGU0aezyFCwkMs0qBP3QKEJALaC5Tt3UTh2VXT369LF0z0mJTT8VQT9HDMctb74XVoJD5c5VE0QVXhMFQDH"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-primary border-2 border-background rounded-full"></div>
+</div>
+<h3 class="font-bold text-on-surface">Elena Solis</h3>
+<p class="text-sm text-on-surface-variant mb-4">Researcher</p>
+<div class="w-full flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">WORKLOAD</span>
+<span class="text-primary">20%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mb-6">
+<div class="h-full bg-primary rounded-full" style="width: 20%"></div>
+</div>
+<div class="grid grid-cols-2 w-full gap-2 mb-6">
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">ACTIVE</div>
+<div class="font-bold text-on-surface">1</div>
+</div>
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">DONE</div>
+<div class="font-bold text-on-surface">19</div>
+</div>
+</div>
+<div class="flex gap-2 w-full">
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">Profile</button>
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 text-on-primary-container bg-primary rounded-lg hover:opacity-90 transition-colors">Assign</button>
+</div>
+</div>
+<!-- Member Card 5 -->
+<div class="bg-surface-container-low rounded-xl p-6 ghost-border flex flex-col items-center text-center group hover:bg-surface-container transition-all">
+<div class="relative mb-4">
+<img class="w-16 h-16 rounded-full object-cover ghost-border" data-alt="Profile of team member Designer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDohqG3ACrHaf8eHui75fufgOyXI9AuHkMajkPwLf5dZckjNFM9-yqOI1I6nmQRnraOCf3KQR8RDZmGJ_zx9XHS7ZrQUY4_zUTfJ0g-Y5YGiS6Kz5Zp5dKFVHQwQy0D6928QCRkET0pj5E11dwe0gWd8Fg-pkgqtm4LM4dJd7MiolMC9gCHjHh8NadiulcCY7B0ciD6G4nGmEtCVQAPoKhFHdBdyIe5Rp45TxL6Tww87OYOCxlZg5vU2XjkpBy-Un3eM1FTlpr9e_y"/>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-outline border-2 border-background rounded-full"></div>
+</div>
+<h3 class="font-bold text-on-surface">David Kim</h3>
+<p class="text-sm text-on-surface-variant mb-4">Thumbnail Artist</p>
+<div class="w-full flex justify-between text-xs font-bold mb-2">
+<span class="text-on-surface-variant">WORKLOAD</span>
+<span class="text-primary">55%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden mb-6">
+<div class="h-full bg-primary rounded-full" style="width: 55%"></div>
+</div>
+<div class="grid grid-cols-2 w-full gap-2 mb-6">
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">ACTIVE</div>
+<div class="font-bold text-on-surface">2</div>
+</div>
+<div class="bg-surface-container-highest/50 py-2 rounded-lg">
+<div class="text-xs text-on-surface-variant">DONE</div>
+<div class="font-bold text-on-surface">34</div>
+</div>
+</div>
+<div class="flex gap-2 w-full">
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors">Profile</button>
+<button class="flex-1 text-[11px] font-bold uppercase tracking-wider py-2 text-on-primary-container bg-primary rounded-lg hover:opacity-90 transition-colors">Assign</button>
+</div>
+</div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Workload Distribution -->
+<section class="lg:col-span-2 bg-surface-container-low rounded-xl p-8 ghost-border">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h2 class="text-xl font-bold text-on-surface mb-1">Workload Distribution</h2>
+<p class="text-sm text-on-surface-variant">Real-time pipeline capacity analysis</p>
+</div>
+<div class="flex gap-3 text-[10px] font-bold tracking-widest uppercase">
+<div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-primary"></div> SCRIPT</div>
+<div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-primary-container"></div> PROD</div>
+<div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-secondary-container"></div> EDIT</div>
+</div>
+</div>
+<div class="space-y-6">
+<!-- Alex -->
+<div class="flex items-center gap-4">
+<span class="w-32 text-sm font-medium text-on-surface">Alex Rivera</span>
+<div class="flex-1 h-8 flex rounded overflow-hidden">
+<div class="h-full bg-primary" style="width: 40%"></div>
+<div class="h-full bg-primary-container" style="width: 10%"></div>
+</div>
+</div>
+<!-- Sarah (Overloaded) -->
+<div class="flex items-center gap-4 group">
+<span class="w-32 text-sm font-medium text-on-surface flex items-center gap-2">
+                            Sarah Chen
+                            <span class="material-symbols-outlined text-secondary text-[16px]">warning</span>
+</span>
+<div class="flex-1 h-8 flex rounded overflow-hidden border border-secondary/50 shadow-[0_0_10px_rgba(242,230,81,0.1)]">
+<div class="h-full bg-primary" style="width: 20%"></div>
+<div class="h-full bg-primary-container" style="width: 30%"></div>
+<div class="h-full bg-secondary-container" style="width: 42%"></div>
+</div>
+</div>
+<!-- Marcus -->
+<div class="flex items-center gap-4">
+<span class="w-32 text-sm font-medium text-on-surface">Marcus Thorne</span>
+<div class="flex-1 h-8 flex rounded overflow-hidden">
+<div class="h-full bg-primary-container" style="width: 72%"></div>
+</div>
+</div>
+<!-- Elena -->
+<div class="flex items-center gap-4">
+<span class="w-32 text-sm font-medium text-on-surface">Elena Solis</span>
+<div class="flex-1 h-8 flex rounded overflow-hidden">
+<div class="h-full bg-primary" style="width: 15%"></div>
+<div class="h-full bg-primary-container" style="width: 5%"></div>
+</div>
+</div>
+<!-- David -->
+<div class="flex items-center gap-4">
+<span class="w-32 text-sm font-medium text-on-surface">David Kim</span>
+<div class="flex-1 h-8 flex rounded overflow-hidden">
+<div class="h-full bg-secondary-container" style="width: 55%"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity Feed -->
+<section class="bg-surface-container-low rounded-xl p-8 ghost-border">
+<h2 class="text-xl font-bold text-on-surface mb-6">Recent Activity</h2>
+<div class="space-y-6 relative before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-0 before:w-[1px] before:bg-outline-variant/30">
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center z-10 shrink-0">
+<span class="material-symbols-outlined text-[14px] text-on-primary-container">check</span>
+</div>
+<div class="space-y-1">
+<p class="text-sm"><span class="font-bold text-on-surface">Alex Rivera</span> completed script for <a class="text-primary underline decoration-primary/30" href="#">Future of AI v4</a></p>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">2 hours ago</span>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center z-10 shrink-0">
+<span class="material-symbols-outlined text-[14px] text-on-secondary-container">upload</span>
+</div>
+<div class="space-y-1">
+<p class="text-sm"><span class="font-bold text-on-surface">Marcus Thorne</span> uploaded VO for <a class="text-primary underline decoration-primary/30" href="#">Biohacking 101</a></p>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">5 hours ago</span>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center z-10 shrink-0">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">edit</span>
+</div>
+<div class="space-y-1">
+<p class="text-sm"><span class="font-bold text-on-surface">Sarah Chen</span> started Final Edit of <a class="text-primary underline decoration-primary/30" href="#">Obsidian Guide</a></p>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">8 hours ago</span>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-primary-container flex items-center justify-center z-10 shrink-0">
+<span class="material-symbols-outlined text-[14px] text-on-primary-container">check</span>
+</div>
+<div class="space-y-1">
+<p class="text-sm"><span class="font-bold text-on-surface">David Kim</span> completed thumbnail for <a class="text-primary underline decoration-primary/30" href="#">Deep Sea Mystery</a></p>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">Yesterday</span>
+</div>
+</div>
+<div class="flex gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center z-10 shrink-0">
+<span class="material-symbols-outlined text-[14px] text-on-surface-variant">person_add</span>
+</div>
+<div class="space-y-1">
+<p class="text-sm"><span class="font-bold text-on-surface">Team</span> Elena Solis joined the research pod</p>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">2 days ago</span>
+</div>
+</div>
+</div>
+<button class="w-full mt-8 py-3 text-sm font-bold border border-outline-variant/30 rounded-lg hover:bg-white/5 transition-all">View All Activity</button>
+</section>
+</div>
+<!-- Task Assignment Board -->
+<section class="bg-surface-container-low rounded-xl ghost-border overflow-hidden">
+<div class="p-8 border-b border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-4">
+<div>
+<h2 class="text-xl font-bold text-on-surface">Task Assignment Board</h2>
+</div>
+<div class="flex gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="bg-background border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary w-64 outline-none" placeholder="Search tasks..." type="text"/>
+</div>
+<button class="bg-surface-container-high px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 border border-outline-variant/20 hover:bg-surface-bright">
+<span class="material-symbols-outlined text-[18px]">filter_list</span> Filter
+                    </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-highest/20 text-[10px] font-black uppercase tracking-[0.1em] text-on-surface-variant">
+<th class="px-8 py-4">Video Title</th>
+<th class="px-8 py-4">Assigned To</th>
+<th class="px-8 py-4">Phase</th>
+<th class="px-8 py-4">Due Date</th>
+<th class="px-8 py-4">Priority</th>
+<th class="px-8 py-4">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-5 font-bold text-on-surface">The Future of AI Architecture</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/30" data-alt="Avatar of Alex Rivera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbKiXVcOFEaPmq6xqlLuV6cUr_B8VM9QTOJ5trGxX2kTiNYQvuWPgBBF-b9Bzb3ChktXHTfS64soHOs62Uw0kUTZCLBE3DNQX_dYbG3ZtIZRmDNkXvzEYGP0BE4SNawqeAg_ZSCy6Tm8YxUSjvDZTNQ8tHM53JQOilXqmraNt0F_OeUGvQFHc0BJ8QMjGU0aezyFCwkMs0qBP3QKEJALaC5Tt3UTh2VXT369LF0z0mJTT8VQT9HDMctb74XVoJD5c5VE0QVXhMFQDH"/>
+<span class="text-sm">Alex Rivera</span>
+</div>
+</td>
+<td class="px-8 py-5"><span class="text-xs px-2 py-1 bg-surface-container-highest rounded text-on-surface-variant">Scripting</span></td>
+<td class="px-8 py-5 text-sm text-on-surface-variant">Oct 24, 2024</td>
+<td class="px-8 py-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-error"></div> <span class="text-xs">High</span></div></td>
+<td class="px-8 py-5"><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary uppercase tracking-widest">In Progress</span></td>
+</tr>
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-5 font-bold text-on-surface">Biohacking for Developers</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/30" data-alt="Avatar of Marcus Thorne" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX6ZZ5gwJKklq297RZVeXJXEoxzrCqwx-tO37-xNLNY4QQ7CxOev2Aq9MfcYO344jyNdmF7rLbGu-7YAS1WZa3c_onMWTfD02rXwoMLx1RuJkFopaJSZETC-AW7LKnIkNtA8Re0TE6m9t_wtz-QzQNC_cN1V_Sf2r--jNC218nqm5o9eRaoObcyA9QFtfE8iZmN1jlZYns10YyFtGIRdXD2HLhV2-9YVRI_PQo-21RdPkVkoN9jjL8nr1Sd7umMvW6wFqC-p9CTKH5"/>
+<span class="text-sm">Marcus Thorne</span>
+</div>
+</td>
+<td class="px-8 py-5"><span class="text-xs px-2 py-1 bg-surface-container-highest rounded text-on-surface-variant">Recording</span></td>
+<td class="px-8 py-5 text-sm text-on-surface-variant">Oct 26, 2024</td>
+<td class="px-8 py-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-primary"></div> <span class="text-xs">Medium</span></div></td>
+<td class="px-8 py-5"><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary uppercase tracking-widest">In Progress</span></td>
+</tr>
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-5 font-bold text-on-surface">Why Dark Mode is Superior</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/30" data-alt="Avatar of Sarah Chen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZca9UT409GKzM8JPSwBa6HNUN0GGyeYqOw6o-wnoVhoUhUOZSM5mmkIR79G7PHMu_Ht9Sa-XLwniwBZX6AWIjxd8vMcAEB2dsoTivpdcdc6lLmdalYxK7eMy8ioz8-OxcaTVJduCT3pawpS3mlOptxd-RCQWAMTxHJbPjhVuIdShV_NJZiPpKTc-gmUws4_SDU1CiVDHS-n7vHap03Gn82n2VqLN4dWWmAFDRuqbU7CA4z9KFoxNLG7vcXdWre3fNGU8tPCLb-yOK"/>
+<span class="text-sm">Sarah Chen</span>
+</div>
+</td>
+<td class="px-8 py-5"><span class="text-xs px-2 py-1 bg-surface-container-highest rounded text-on-surface-variant">Post-Prod</span></td>
+<td class="px-8 py-5 text-sm text-on-surface-variant">Oct 25, 2024</td>
+<td class="px-8 py-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-error"></div> <span class="text-xs">Critical</span></div></td>
+<td class="px-8 py-5"><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary text-on-primary uppercase tracking-widest">Awaiting QC</span></td>
+</tr>
+<tr class="hover:bg-white/[0.02] transition-colors">
+<td class="px-8 py-5 font-bold text-on-surface">Deep Sea Mysteries Part 2</td>
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 rounded-full border border-outline-variant/30" data-alt="Avatar of David Kim" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbKiXVcOFEaPmq6xqlLuV6cUr_B8VM9QTOJ5trGxX2kTiNYQvuWPgBBF-b9Bzb3ChktXHTfS64soHOs62Uw0kUTZCLBE3DNQX_dYbG3ZtIZRmDNkXvzEYGP0BE4SNawqeAg_ZSCy6Tm8YxUSjvDZTNQ8tHM53JQOilXqmraNt0F_OeUGvQFHc0BJ8QMjGU0aezyFCwkMs0qBP3QKEJALaC5Tt3UTh2VXT369LF0z0mJTT8VQT9HDMctb74XVoJD5c5VE0QVXhMFQDH"/>
+<span class="text-sm">David Kim</span>
+</div>
+</td>
+<td class="px-8 py-5"><span class="text-xs px-2 py-1 bg-surface-container-highest rounded text-on-surface-variant">Design</span></td>
+<td class="px-8 py-5 text-sm text-on-surface-variant">Oct 28, 2024</td>
+<td class="px-8 py-5"><div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-outline-variant"></div> <span class="text-xs">Low</span></div></td>
+<td class="px-8 py-5"><span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant uppercase tracking-widest">Backlog</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Shared Footer -->
+<footer class="w-full py-12 px-8 border-t border-[#46484d]/10 bg-[#0c0e12]">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-7xl mx-auto text-sm font-['Inter'] tracking-wide text-[#aaabb0]">
+<div>© 2024 Teller Pipeline. v2.4.0</div>
+<div class="flex items-center gap-8">
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="index.html">Docs</a>
+<a class="text-[#aaabb0] hover:text-[#f6f6fc] transition-colors" href="index.html">Support</a>
+<div class="flex items-center gap-2 text-[#eafe8e]">
+<div class="w-2 h-2 bg-[#eafe8e] rounded-full animate-pulse shadow-[0_0_8px_#eafe8e]"></div>
+                    System Operational
+                </div>
+</div>
+</div>
+</footer>
+</body></html>
